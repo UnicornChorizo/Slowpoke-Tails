@@ -27,10 +27,7 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
+                        <a class="nav-link" href="#">Shop</a>
                     </li>
                 </ul>
             </div>
@@ -39,9 +36,14 @@
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        <a class="btn btn-outline-primary ms-2" href="#">
+
+        <a id="cartButton" class="btn btn-outline-primary ms-2" href="#">
             <i class="bi bi-cart"></i>
         </a>
+
+        <div id="cartPopup" class="cart-popup">
+            <!--To be added-->
+        </div>
     </nav>
 </header>
 
@@ -53,7 +55,7 @@
     <p class="lead">We specialize in crafting delicious Slowpoke Tails.</p>
 </section>
 
-<section class = "featured">
+<section class="featured">
     <div>
         <h2 class="featured-items">Featured Items</h2>
     </div>
@@ -79,7 +81,7 @@
 
     <div class="product">
         <h3>Curry Slowpoke Tail</h3>
-        <img src="images/CurrySlowpokeTail.png" alt="Curry Slowpoke Tail" class="mr-3" style="max-width: 100px;">
+        <img src="images/CurrySlowpokeTail.png" alt="Curry Slowpoke Tail" class="mr-3">
         <p>Newest flavor on the menu, great flavor and full of seasoning.</p>
         <p>Price: $29.99</p>
         <button>Add to Cart</button>
@@ -87,7 +89,7 @@
 
     <div class="product">
         <h3>Moomoo Milk</h3>
-        <img src="images/moo-moo-milk.png" alt="Moomoo Milk" class="mr-3" style="max-width: 100px;">
+        <img src="images/moo-moo-milk.png" alt="Moomoo Milk" class="mr-3">
         <p>Straight from the udder.</p>
         <p>Price: $5.00</p>
         <button>Add to Cart</button>
@@ -95,7 +97,7 @@
 
     <div class="product">
         <h3>Fresh Water</h3>
-        <img src="images/fresh-water.png" alt="Fresh Water" class="mr-3" style="max-width: 100px;">
+        <img src="images/fresh-water.png" alt="Fresh Water" class="mr-3">
         <p>Water sourced from Mt. Fuji. Great tasting!.</p>
         <p>Price: $2.00</p>
         <button>Add to Cart</button>
@@ -103,7 +105,7 @@
 
     <div class="product">
         <h3>Lemonade</h3>
-        <img src="images/lemonade.png" alt="Lemonade" class="mr-3" style="max-width: 100px;">
+        <img src="images/lemonade.png" alt="Lemonade" class="mr-3">
         <p>Lemonade made fresh everyday!.</p>
         <p>Price: $3.50</p>
         <button>Add to Cart</button>
@@ -111,9 +113,27 @@
 </section>
 
 
-
 <footer class="bg-dark text-light text-center py-3">
     <p>&copy; 2023 Slowpoke Tails</p>
+    <ul>
+        <li class="nav-item">
+            <a class="nav-link" href="about.html">About Us</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact Us</a>
+        </li>
+    </ul>
 </footer>
 </body>
 </html>
+<script>
+    document.getElementById('cartButton').addEventListener('click', function() {
+        document.getElementById('cartPopup').style.display = 'block';
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!document.getElementById('cartPopup').contains(e.target) && e.target !== document.getElementById('cartButton')) {
+            document.getElementById('cartPopup').style.display = 'none';
+        }
+    });
+</script>
