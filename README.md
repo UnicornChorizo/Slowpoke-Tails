@@ -1,5 +1,6 @@
 # Slowpoke-Tails
-WebApp to "buy" Slowpoke tails. (Non-working cart)
+WebApp for Slowpoke Tails.
+Virtual Store for food and other items (coming soon).
 
 Credits for images below:
 
