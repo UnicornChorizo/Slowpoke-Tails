@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <title>Slowpoke Tails</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
+
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="index.html">
-                <img src="images/SlowpokeTail_WebIcon.webp" alt="Slowpoke Tails Logo">
-                <span class="ml-2">Slowpoke Tails</span>
+                <img src="images/Slowpoke Tails.png" alt="Slowpoke Tails Logo" width="50">
+                <span class="font">Slowpoke Tails</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -26,114 +32,178 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
+                    <li class="" nav-item>
+                        <a class="nav-link" href="menu.html">Menu</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Shop</a>
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
                     </li>
                 </ul>
             </div>
+
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <a id="cartButton" class="btn btn-outline-primary ms-2" href="#">
+                <i class="bi bi-cart"></i>
+            </a>
+
+            <div id="cartPopup" class="cart-popup">
+                <!--To be added-->
+            </div>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <img src="images/SlowpokeTailsBanner.png" alt="Slowpoke Tails Banner" class="img-fluid center-image"
+            style="max-height: 375px; max-width: 100%;">
+    </section>
+
+    <section class="food-categories">
+        <table class="category-table">
+            <tr>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Slowpoke Tails</p>
+                </td>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Sandwiches</p>
+                </td>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/SeafoodPinchos.png" alt="Seafood" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Seafood</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/FourPieceSushiFlowerSet.png" alt="Sushi" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Sushi</p>
+                </td>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/MisoSoup.png" alt="Soups" class="featured-image" style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Soups</p>
+                </td>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/CaesarSalad.png" alt="Salads" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Salad</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/StrawberryChocolateCrepe.png" alt="Crepes" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Crepes</p>
+                </td>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/TeriyakiIceCream.png" alt="Ice Cream" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Ice Cream</p>
+                </td>
+                <td class="category-cell">
+                    <div class="item-image">
+                        <a href="menu.html">
+                            <img src="images/LemonSoda.png" alt="Drinks" class="featured-image"
+                                style="max-width: 150px;">
+                        </a>
+                    </div>
+                    <p>Drinks</p>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="featured-tails">
+        <div class="featured-title">
+            <h2>Featured Items</h2>
         </div>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
 
-        <a id="cartButton" class="btn btn-outline-primary ms-2" href="#">
-            <i class="bi bi-cart"></i>
-        </a>
-
-        <div id="cartPopup" class="cart-popup">
-            <!--To be added-->
+        <div class="featured-table">
+            <div class="table-row">
+                <div class="table-item">
+                    <div class="item-content">
+                        <div class="item-image">
+                            <a href="menu.html">
+                                <img src="images/SeafoodPinchos.png" alt="Seafood Pinchos" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <div class="item-name">Seafood Pinchos</div>
+                    </div>
+                </div>
+                <div class="table-item">
+                    <div class="item-content">
+                        <div class="item-image">
+                            <a href="menu.html">
+                                <img src="images/GrilledSlowPokeTail.png" alt="Spicy Slowpoke Tail"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <div class="item-name">Grilled Slowpoke Tail</div>
+                    </div>
+                </div>
+                <div class="table-item">
+                    <div class="item-content">
+                        <div class="item-image">
+                            <a href="menu.html">
+                                <img src="images/MisoSoup.png" alt="Miso Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <div class="item-name">Miso Soup</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </nav>
-</header>
+    </section>
 
-<section class="banner">
-    <div class="banner-image">
-        <img src="images/SlowpokeTailsBanner.png" alt="Slowpoke Tails Banner">
-    </div>
+    <footer class="bg-dark text-light text-center py-3">
+        <p>&copy; 2023 Slowpoke Tails</p>
+    </footer>
 
-    <p class="lead">We specialize in crafting delicious Slowpoke Tails.</p>
-</section>
-
-<section class="featured">
-    <div>
-        <h2 class="featured-items">Featured Items</h2>
-    </div>
-</section>
-
-<section class="container content mt-4">
-
-    <div class="product">
-        <h3>Spicy Slowpoke Tail</h3>
-        <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="mr-3" style="max-width: 100px;">
-        <p>Best Seller! Spicy Slowpoke tail will burn your tongue off.</p>
-        <p>Price: $19.99</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <h3>Grilled Slowpoke Tail</h3>
-        <img src="images/GrilledSlowpokeTail.png" alt="Grilled Slowpoke Tail" class="mr-3" style="max-width: 100px;">
-        <p>Second bestseller! Healthier option if you prefer non-fried.</p>
-        <p>Price: $29.99</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <h3>Curry Slowpoke Tail</h3>
-        <img src="images/CurrySlowpokeTail.png" alt="Curry Slowpoke Tail" class="mr-3">
-        <p>Newest flavor on the menu, great flavor and full of seasoning.</p>
-        <p>Price: $29.99</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <h3>Moomoo Milk</h3>
-        <img src="images/moo-moo-milk.png" alt="Moomoo Milk" class="mr-3">
-        <p>Straight from the udder.</p>
-        <p>Price: $5.00</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <h3>Fresh Water</h3>
-        <img src="images/fresh-water.png" alt="Fresh Water" class="mr-3">
-        <p>Water sourced from Mt. Fuji. Great tasting!.</p>
-        <p>Price: $2.00</p>
-        <button>Add to Cart</button>
-    </div>
-
-    <div class="product">
-        <h3>Lemonade</h3>
-        <img src="images/lemonade.png" alt="Lemonade" class="mr-3">
-        <p>Lemonade made fresh everyday!.</p>
-        <p>Price: $3.50</p>
-        <button>Add to Cart</button>
-    </div>
-</section>
-
-
-<footer class="bg-dark text-light text-center py-3">
-    <p>&copy; 2023 Slowpoke Tails</p>
-    <ul>
-        <li class="nav-item">
-            <a class="nav-link" href="about.html">About Us</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact Us</a>
-        </li>
-    </ul>
-</footer>
+    <script type="text/javascript" src="js/scripts.js"></script>
 </body>
-</html>
-<script>
-    document.getElementById('cartButton').addEventListener('click', function() {
-        document.getElementById('cartPopup').style.display = 'block';
-    });
 
-    document.addEventListener('click', function(e) {
-        if (!document.getElementById('cartPopup').contains(e.target) && e.target !== document.getElementById('cartButton')) {
-            document.getElementById('cartPopup').style.display = 'none';
-        }
-    });
-</script>
+</html>

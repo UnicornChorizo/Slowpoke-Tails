@@ -1,47 +1,118 @@
-.banner {
-    position: relative;
-    text-align: center;
+/* Font */
+.font {
+    font-family: "Protest Riot", sans-serif;
 }
 
-.banner img {
-    max-width: 60%;
+p{
+    font-family: "Protest Riot", sans-serif;
+    color: #ffffff;
+}
+
+.item-name {
+    font-family: "Protest Riot", sans-serif;
+    color: #ffffff;
+}
+
+/* Banner Styling */
+.banner {
+    position:relative;
+    background-color: #db888c;
+}
+
+.center-image {
     display: block;
     margin: 0 auto;
 }
 
-body {
-    color: #333;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+/*Categories Styling */
+.food-categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ac46a3;
 }
 
-.cart-popup {
-    display: none;
-    position: absolute;
-}
-
-section {
+.category-table {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 2em;
+    justify-content: center;
+    padding: 10px;
+    min-width: 540px;
+    max-width:750px;
 }
 
-.product {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 1em;
-    margin: 1em;
-    width: 300px;
+.category-cell {
+    flex: 0 0 calc(33.33% - 20px);
     text-align: center;
-}
-.mr-3{
-    max-width: 100px;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 10px;
 }
 
+
+.item-image img {
+    max-width: 150px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+}
+
+/* Featured Tails Styling */
+.featured-tails {
+    padding-top: 20px;
+    text-align: center;
+    background-color: #db888c;
+}
+
+.featured-title {
+    margin-bottom: 20px;
+    font-family: "Protest Riot", sans-serif;
+}
+
+.featured-table {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.table-row {
+    display: flex;
+    justify-content: center;
+    max-width: 100%;
+    flex-wrap: wrap; 
+}
+
+.table-item {
+    flex: 0 0 30%;
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 10px;
+}
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-title {
+    font-weight: bold;
+}
+
+.item-image {
+    max-width: 100%;
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+    .category-table {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .category-cell {
+        flex: 1;
+    }
+}
