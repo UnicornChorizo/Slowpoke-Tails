@@ -1,12 +1,36 @@
-.center-image {
-    display: block;
-    margin: 0 auto; /* Center horizontally */
+.banner {
+    position: relative;
+    text-align: center;
 }
 
-/* CSS for the text content on the "About" page */
+.banner img {
+    max-width: 60%;
+    display: block;
+    margin: 0 auto;
+}
+
+.featured{
+    font si
+}
 body {
-    color: #333; /* Change text color to a desired color */
-    font-family: Arial, sans-serif; /* Change font-family to your preferred font */
-    font-size: 16px; /* Adjust font size as needed */
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2em;
+}
+
+.product {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1em;
+    margin: 1em;
+    width: 300px;
+    text-align: center;
 }
 
