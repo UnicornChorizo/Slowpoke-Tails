@@ -135,3 +135,26 @@ p {
 .item-quantity {
     text-align: center;
 }
+
+/* Details Page Styling */
+.product-description,
+main p {
+    color: #333; /* Change the color to a darker shade for better visibility */
+}
+
+h2 {
+    color: #000; /* Make the product name black */
+
+    font-family: "Protest Riot", sans-serif;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Adjust the button color if needed */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Adjust the button hover color if needed */
+    border-color: #0056b3;
+}
+
