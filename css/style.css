@@ -3,7 +3,7 @@
     font-family: "Protest Riot", sans-serif;
 }
 
-p{
+p {
     font-family: "Protest Riot", sans-serif;
     color: #ffffff;
 }
@@ -15,7 +15,7 @@ p{
 
 /* Banner Styling */
 .banner {
-    position:relative;
+    position: relative;
     background-color: #db888c;
 }
 
@@ -39,7 +39,7 @@ p{
     justify-content: center;
     padding: 10px;
     min-width: 540px;
-    max-width:750px;
+    max-width: 750px;
 }
 
 .category-cell {
@@ -80,7 +80,7 @@ p{
     display: flex;
     justify-content: center;
     max-width: 100%;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
 }
 
 .table-item {
