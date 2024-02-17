@@ -6,99 +6,591 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Page - Slowpoke Tails</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
 </head>
 
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="../index.html">
-            <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
-            <span class="font">Slowpoke Tails</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/index.html">
+                <img src="/images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
+                <span class="font">Slowpoke Tails</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="products.html">Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
-                </li>
-            </ul>
-        </div>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webpages/products.html">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
 
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
 
-        <a id="cartButton" class="btn btn-outline-primary ms-2" href="cart.html">
-            <i class="bi bi-cart"></i>
-        </a>
+            <a id="cartButton" class="btn btn-outline-primary ms-2" href="/webpages/cart.html">
+                <i class="bi bi-cart"></i>
+            </a>
 
-        <div id="cartPopup" class="cart-popup">
-            <!--To be added-->
-        </div>
-    </nav>
-</header>
+            <div id="cartPopup" class="cart-popup">
+                <!--To be added-->
+            </div>
+        </nav>
+    </header>
 
-<div class="container my-4">
-    <h2 class="text-center my-4">Product List</h2>
-    <div class="cart-items">
-        <div class="cart-item d-flex justify-content-between align-items-center my-2">
-            <img src="../images/GrilledSlowpokeTail.png" alt="Item 1" class="item-image" style="width: 100px;">
-            <span class="item-name-cart">Item 1</span>
-            <span class="item-price">$5.00</span>
-            <a href="details.html" class="btn btn-primary">View Item</a>
-        </div>
-        <div class="cart-item d-flex justify-content-between align-items-center my-2">
-            <img src="../images/SpicySlowPokeTail.png" alt="Item 1" class="item-image" style="width: 100px;">
-            <span class="item-name-cart">Item 1</span>
-            <span class="item-price">$5.00</span>
-            <a href="details.html" class="btn btn-primary">View Item</a>
-        </div>
-        <div class="cart-item d-flex justify-content-between align-items-center my-2">
-            <img src="../images/CurrySlowpokeTail.png" alt="Item 1" class="item-image" style="width: 100px;">
-            <span class="item-name-cart">Item 1</span>
-            <span class="item-price">$5.00</span>
-            <a href="details.html" class="btn btn-primary">View Item</a>
-        </div>
-        <div class="cart-item d-flex justify-content-between align-items-center my-2">
-            <img src="../images/GrilledSlowpokeTail.png" alt="Item 1" class="item-image" style="width: 100px;">
-            <span class="item-name-cart">Item 1</span>
-            <span class="item-price">$5.00</span>
-            <a href="details.html" class="btn btn-primary">View Item</a>
-        </div>
-        <div class="cart-item d-flex justify-content-between align-items-center my-2">
-            <img src="../images/GrilledSlowpokeTail.png" alt="Item 1" class="item-image" style="width: 100px;">
-            <span class="item-name-cart">Item 1</span>
-            <span class="item-price">$5.00</span>
-            <a href="details.html" class="btn btn-primary">View Item</a>
-        </div>
-    </div>
+    <section class="food-categories-product">
+        <table class="category-table">
+
+            <a href="#slowpoketails">
+                <tr class="food-category-title">
+                    <th colspan="3">Slowpoke Tails</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#sandwiches">
+                <tr class="food-category-title">
+                    <th colspan="3">Sandwiches</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#seafood">
+                <tr class="food-category-title">
+                    <th colspan="3">Seafood</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#sushi">
+                <tr class="food-category-title">
+                    <th colspan="3">Sushi</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#soups">
+                <tr class="food-category-title">
+                    <th colspan="3">Soups</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#salads">
+                <tr class="food-category-title">
+                    <th colspan="3">Salads</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#crepes">
+                <tr class="food-category-title">
+                    <th colspan="3">Crepes</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#ice-cream">
+                <tr class="food-category-title">
+                    <th colspan="3">Ice Cream</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+
+            <a href="#drinks">
+                <tr class="food-category-title">
+                    <th colspan="3">Drinks</th> <!-- Title of the category -->
+                </tr>
+                <tr class="food-category">
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/TropicalSandwich.png" alt="Sandwiches" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Tropical Sandwich</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SpicySlowPokeTail.png" alt="Spicy Slowpoke Tail" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Spicy Slowpoke Tail</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSoup.png" alt="Slowpoke Tail Soup" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Soup</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailStirFry.png" alt="Slowpoke Tail Stir-Fry"
+                                    class="featured-image" style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Stir-Fry</p>
+                    </td>
+    
+                    <td class="category-cell">
+                        <div class="item-image">
+                            <a href="/webpages/products.html">
+                                <img src="images/SlowpokeTailSkewers.png" alt="Slowpoke Tail Skewers" class="featured-image"
+                                    style="max-width: 150px;">
+                            </a>
+                        </div>
+                        <p>Slowpoke Tail Skewers</p>
+                    </td>
+                </tr>
+            </a>
+
+        </table>
+    </section>
 
     <footer class="bg-dark text-light text-center py-3">
         <p>&copy; 2023 Slowpoke Tails</p>
     </footer>
 
-    <script type="text/javascript" src="../js/scripts.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
 </body>
 
 </html>
