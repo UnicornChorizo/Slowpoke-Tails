@@ -121,7 +121,7 @@ p{
 .cart-item {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
-    background-color: #db888c;
+    background-color: #ac46a3;
 
 
 }
@@ -129,7 +129,7 @@ p{
 .cart-summary {
     border-top: 1px solid #ccc;
     padding-top: 10px;
-    background-color: #db888c;
+    background-color: #ac46a3;
 }
 
 .item-image {
@@ -140,8 +140,8 @@ p{
     text-align: center;
 }
 
-.my-4{
-    background-color: #db888c;
+.cart{
+    background-color: #ac46a3;
     font-family: "Protest Riot", sans-serif;
 }
 
@@ -163,6 +163,11 @@ h2 {
 .btn-primary:hover {
     background-color: #0056b3; /* Adjust the button hover color if needed */
     border-color: #0056b3;
+}
+
+.details{
+    background-color: #db888c;
+    font-family: "Protest Riot", sans-serif;
 }
 
 
