@@ -121,7 +121,7 @@ p{
 .cart-item {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
-        background-color: #db888c;
+    background-color: #db888c;
 
 
 }
@@ -129,10 +129,7 @@ p{
 .cart-summary {
     border-top: 1px solid #ccc;
     padding-top: 10px;
-
-        background-color: #db888c;
-
-
+    background-color: #db888c;
 }
 
 .item-image {
@@ -141,6 +138,11 @@ p{
 
 .item-quantity {
     text-align: center;
+}
+
+.my-4{
+    background-color: #db888c;
+    font-family: "Protest Riot", sans-serif;
 }
 
 /* Details Page Styling */
