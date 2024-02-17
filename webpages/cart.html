@@ -59,6 +59,54 @@
     </nav>
 </header>
 
+<div class="container my-4">
+    <h2 class="text-center my-4">Shopping Cart</h2>
+    <div class="cart-items">
+        <!-- First item -->
+        <div class="cart-item d-flex justify-content-between align-items-center my-2">
+            <img src="../images/GrilledSlowpokeTail.png" alt="Item 1" class="item-image" style="width: 100px;">
+            <span class="item-name-cart">Item 1</span>
+            <span class="item-price">$5.00</span>
+            <input type="number" class="form-control item-quantity" value="1" style="width: 60px;">
+            <button class="btn btn-primary">Update</button>
+            <button class="btn btn-danger">Remove</button>
+            <span class="item-total">$5.00</span>
+        </div>
+        <!-- Second item -->
+        <div class="cart-item d-flex justify-content-between align-items-center my-2">
+            <img src="../images/SpicySlowPokeTail.png" alt="Item 2" class="item-image" style="width: 100px;">
+            <span class="item-name-cart">Item 2</span>
+            <span class="item-price">$4.00</span>
+            <input type="number" class="form-control item-quantity" value="2" style="width: 60px;">
+            <button class="btn btn-primary">Update</button>
+            <button class="btn btn-danger">Remove</button>
+            <span class="item-total">$8.00</span>
+        </div>
+    </div>
+    <div class="cart-summary mt-4">
+        <h4 class="text-center">Cart Summary</h4>
+        <div class="d-flex justify-content-between">
+            <span>Subtotal</span>
+            <span>$13.00</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Tax (6.75%)</span>
+            <span>$0.88</span>
+        </div>
+        <div class="d-flex justify-content-between">
+            <span>Delivery Fee</span>
+            <span>$15.00</span>
+        </div>
+        <div class="d-flex justify-content-between font-weight-bold">
+            <span>Total</span>
+            <span>$28.88</span>
+        </div>
+        <div class="text-center mt-3">
+            <button class="btn btn-success">Checkout</button>
+        </div>
+    </div>
+</div>
+
 <footer class="bg-dark text-light text-center py-3">
     <p>&copy; 2023 Slowpoke Tails</p>
 </footer>
