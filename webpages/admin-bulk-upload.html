@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Upload</title>
+</head>
+<body>
+    <header>
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="bulk-upload.html">Bulk Upload</a></li>
+                <li><a href="product-edit.html">Product Edit</a></li>
+                <li><a href="sign-out.html">Sign Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Bulk Upload</h1>
+        <form action="upload.php" method="post" enctype="multipart/form-data">
+            <label for="file">Select file to upload:</label>
+            <input type="file" name="file" id="file">
+            <input type="submit" value="Upload File">
+        </form>
+        <!-- Instructions and example file format here -->
+    </main>
+</body>
+</html>
