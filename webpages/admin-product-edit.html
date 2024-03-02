@@ -2,26 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Admin - Product Edit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Edit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 </head>
 <body>
-    <header>
-        <nav class="admin-nav">
-            <ul>
-                <li><a href="admin-bulk-upload.html">Bulk Upload</a></li>
-                <li><a href="admin-product-edit.html">Product Edit</a></li>
-                <li><a href="sign-out.html">Sign Out</a></li>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="admin.html">
+            <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
+            <span class="font">Slowpoke Tails</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.html">Admin - Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../webpages/admin-bulk-upload.html">Bulk Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../webpages/admin-product-edit.html">Product Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Log Out</a>
+                </li>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
-    <main>
-        <h1>Product Edit</h1>
-        <form action="edit-product.php" method="post">
-            <!-- Product selection/search -->
-            <!-- Editable fields for product attributes -->
+<main>
+    <h1>List a New Product</h1>
+    <div id="new-product-container">
+        <div>
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName"><br>
+
+            <label for="price">Price:</label>
+            <input type="text" id="price"><br>
+
+            <label for="imageUrl">Image:</label>
+            <input type="file" id="imageUrl" accept="image/*"><br>
+
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <option value="Slowpoke-Tails">Slowpoke Tails</option>
+                <option value="Sandwiches">Sandwiches</option>
+                <option value="Seafood">Seafood</option>
+                <option value="Sushi">Sushi</option>
+                <option value="Soups">Soups</option>
+                <option value="Salads">Salads</option>
+                <option value="Crepes">Crepes</option>
+                <option value="Ice-Cream">Ice Cream</option>
+                <option value="Drinks">Drinks</option>
+            </select><br>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" rows="5" cols="30"></textarea><br>
+        </div>
+
+    </div>
+    <div id="new-prod-buttons">
+        <input type="submit" id="edit-submit" class="submit" value="Submit">
+    </div>
+
+    <h1>Edit Product Container</h1>
+    <div id="product-selection-container">
+        <label for="productSelect">Select a product to edit:</label>
+        <select id="productSelect" name="productSelect">
+            <option value="">--Select a Product--</option>
+        </select>
+        <button onclick="loadProductDetails()">Load Product Details</button>
+    </div>
+
+    <div id="product-edit-container">
+        <h2>Edit Product</h2>
+        <form id="editProductForm">
+            <input type="hidden" id="productId">
+
+            <label for="editProductName">Product Name:</label>
+            <input type="text" id="editProductName" name="productName"><br>
+
+            <label for="editPrice">Price:</label>
+            <input type="text" id="editPrice" name="price"><br>
+
+            <label for="editCategory">Category:</label>
+            <select id="editCategory" name="category">
+                <option value="Slowpoke-Tails">Slowpoke Tails</option>
+                <option value="Sandwiches">Sandwiches</option>
+                <option value="Seafood">Seafood</option>
+                <option value="Sushi">Sushi</option>
+                <option value="Soups">Soups</option>
+                <option value="Salads">Salads</option>
+                <option value="Crepes">Crepes</option>
+                <option value="Ice-Cream">Ice Cream</option>
+                <option value="Drinks">Drinks</option>
+            </select><br>
+
+            <label for="editDescription">Description:</label>
+            <textarea id="editDescription" name="description" rows="5" cols="30"></textarea><br>
+
+            <label for="editImageUrl">Image Path:</label>
+            <input type="text" id="editImageUrl" name="imageUrl"><br>
+
+            <input type="submit" class="submit" value="Update Product">
         </form>
-    </main>
+    </div>
+</main>
+
+<footer class="bg-dark text-light text-center py-3">
+    <p>&copy; 2023 Slowpoke Tails</p>
+</footer>
+
+<script type="text/javascript" src="../js/scripts.js"></script>
+
 </body>
 </html>
