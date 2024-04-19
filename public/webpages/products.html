@@ -17,85 +17,90 @@
 </head>
 
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="../index.html">
-            <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
-            <span class="font">Slowpoke Tails</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
+                <span class="font">Slowpoke Tails</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="products.html">Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.html">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact Us</a>
-                </li>
-                <li class="nav-item" id="loginLogoutLink">
-                    <!-- This will be updated dynamically -->
-                </li>
-            </ul>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    </li>
+                    <li class="nav-item" id="loginLogoutLink">
+                        <!-- This will be updated dynamically -->
+                    </li>
+                </ul>
+            </div>
+
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <a id="cartButton" class="btn btn-outline-primary ms-2" href="cart.html">
+                <i class="bi bi-cart"></i>
+            </a>
+
+            <div id="cartPopup" class="cart-popup">
+                <!--To be added-->
+            </div>
+        </nav>
+    </header>
+
+    <section class="food-categories-product">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="product-list">
+                <!-- Product listings will be dynamically generated here -->
+            </div>
         </div>
+    </section>
 
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+    <footer class="bg-dark text-light text-center py-3">
+        <p>&copy; 2023 Slowpoke Tails</p>
+    </footer>
 
-        <a id="cartButton" class="btn btn-outline-primary ms-2" href="cart.html">
-            <i class="bi bi-cart"></i>
-        </a>
+    <script type="text/javascript" src="../js/scripts.js"></script>
+    <script>
+        // Fetch product data from the server
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(products => {
+                const productList = document.getElementById('product-list');
 
-        <div id="cartPopup" class="cart-popup">
-            <!--To be added-->
-        </div>
-    </nav>
-</header>
-
-<section class="food-categories-product">
-    <div id="product-list">
-        <!-- Product listings will be dynamically generated here -->
-    </div>
-</section>
-
-<footer class="bg-dark text-light text-center py-3">
-    <p>&copy; 2023 Slowpoke Tails</p>
-</footer>
-
-<script type="text/javascript" src="../js/scripts.js"></script>
-<script>
-    // Fetch product data from the server
-    fetch('/api/products')
-        .then(response => response.json())
-        .then(products => {
-            const productList = document.getElementById('product-list');
-
-            // Loop through the products and generate HTML dynamically
-            products.forEach(product => {
-                const productHTML = `
-                    <div class="category-cell">
-                        <a href="details.html?id=${product.id}">
-                            <img src="${product.image_url}" alt="${product.name}" class="featured-image">
-                            <p class="product-name">${product.name} - $${product.price}</p>
-                        </a>
+                // Loop through the products and generate HTML dynamically
+                products.forEach(product => {
+                    const productHTML = `
+                    <div class="col">
+                        <div class="card">
+                            <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${product.name}</h5>
+                                <p class="card-text">$${product.price}</p>
+                                <a href="details.html?id=${product.id}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
                     </div>
                 `;
-                productList.innerHTML += productHTML;
-            });
-        })
-        .catch(error => console.error('Error fetching products:', error));
-
-</script>
+                    productList.innerHTML += productHTML;
+                });
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    </script>
 </body>
 
 </html>

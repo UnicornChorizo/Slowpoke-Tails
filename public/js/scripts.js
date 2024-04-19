@@ -38,16 +38,29 @@ document.addEventListener('click', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
     const loginLogoutLink = document.getElementById('loginLogoutLink');
 
-    // Check if the user is logged in (you need to implement this logic)
-    const isLoggedIn = true; // Change this to your actual logic
+    // Make an asynchronous request to check if the user is logged in
+    fetch('/check-authentication')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Check if the user is logged in based on the response from the server
+            const isLoggedIn = data.isLoggedIn;
 
-    if (isLoggedIn) {
-        // If the user is logged in, display the "Logout" link
-        loginLogoutLink.innerHTML = '<a class="nav-link" href="/logout">Logout</a>';
-    } else {
-        // If the user is not logged in, display the "Login" link
-        loginLogoutLink.innerHTML = '<a class="nav-link" href="webpages/login.html">Login</a>';
-    }
+            if (isLoggedIn) {
+                // If the user is logged in, display the "Logout" link
+                loginLogoutLink.innerHTML = '<a class="nav-link" href="/logout">Logout</a>';
+            } else {
+                // If the user is not logged in, display the "Login" link
+                loginLogoutLink.innerHTML = '<a class="nav-link" href="webpages/login.html">Login</a>';
+            }
+        })
+        .catch(error => {
+            console.error('Error checking authentication:', error);
+        });
 });
 
 const prevButton = document.getElementById('prevSlide');

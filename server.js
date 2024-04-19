@@ -20,6 +20,17 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// Middleware to check if the user is authenticated
+function isAuthenticated(req, res, next) {
+    if (req.session && req.session.userId) {
+        // If the user ID is set in the session, the user is authenticated
+        return next();
+    } else {
+        // If not authenticated, respond with unauthorized status
+        return res.status(401).json({ isLoggedIn: false });
+    }
+}
+
 // Serve static files from 'public' directory
 app.use(express.static('public'));
 
@@ -83,6 +94,11 @@ app.post('/login', (req, res) => {
             res.send('Invalid email or password');
         }
     });
+});
+
+// Define the check-authentication endpoint
+app.get('/check-authentication', isAuthenticated, (req, res) => {
+    res.json({ isLoggedIn: true });
 });
 
 // Handle registration
