@@ -116,3 +116,19 @@ document.getElementById('registerForm').addEventListener('submit', function(even
             alert('An error occurred while registering the user');
         });
 });
+
+// Endpoint to handle requests for product details based on product ID
+app.get('/api/products/:id', (req, res) => {
+    const productId = parseInt(req.params.id);
+
+    // Find the product with the matching ID
+    const product = products.find(product => product.id === productId);
+
+    if (!product) {
+        // If product is not found, return a 404 error
+        return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // If product is found, return the product details
+    res.json(product);
+});
