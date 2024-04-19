@@ -30,8 +30,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../webpages/admin-product-edit.html">Product Upload</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Log Out</a>
+                <li class="nav-item" id="loginLogoutLink">
+                    <!-- This will be updated dynamically -->
                 </li>
             </ul>
         </div>
@@ -51,35 +51,37 @@
     <pre>
     [
         {
-            "productId": "123",
-            "productName": "Example Product 1",
+            "id": "123",
+            "name": "Example Product 1",
             "description": "Product description",
-            "category": "Electronics",
-            "imageUrl": "path/to/image1.png",
-            "price": "9.99"
+            "image_url": "path/to/image1.png",
+            "price": "9.99",
+            "category_id": 1,
+            "featured": 1
         },
         {
-            "productId": "124",
-            "productName": "Example Product 2",
+            "id": "124",
+            "name": "Example Product 2",
             "description": "Product description",
-            "category": "Books",
-            "imageUrl": "path/to/image2.png",
-            "price": "19.99"
+            "image_url": "path/to/image2.png",
+            "price": "19.99",
+            "category_id": 2,
+            "featured": 0
         }
     ]
     </pre>
     <p>CSV format:</p>
     <pre>
-    productId, productName, description, category, imageUrl, price
-    123, Example Product 1, Product description, Electronics, path/to/image1.png, 9.99
-    124, Example Product 2, Product description, Books, path/to/image2.png, 19.99
+    id, name, description, image_url, price, category_id, featured
+    123,"Example Product 1","Product description","path/to/image1.png",9.99,1,1
+    124,"Example Product 2","Product description","path/to/image2.png",19.99,2,0
     </pre>
 
     <p>Text format (tab-separated):</p>
     <pre>
-    productId	productName	        description             Category        imageUrl                Price
-    123	        Example Product 1	Product Description     Electronics     path/to/image1.png      9.99
-    124	        Example Product 2	Product Description     Books	        path/to/image2.png      19.99
+    id      name                description             image_url               price       category      featured
+    123	    Example Product 1	Product Description     path/to/image1.png      9.99        1             1
+    124	    Example Product 2	Product Description     path/to/image2.png      19.99       2             0
     </pre>
 </main>
 
@@ -88,7 +90,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<script type="text/javascript" src="../js/scripts.js"></script>
 
 </body>
 </html>
