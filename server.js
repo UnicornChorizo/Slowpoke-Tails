@@ -31,6 +31,9 @@ function isAuthenticated(req, res, next) {
     }
 }
 
+// Middleware to parse JSON bodies
+app.use(bodyParser.json());
+
 // Serve static files from 'public' directory
 app.use(express.static('public'));
 
@@ -68,6 +71,31 @@ app.get('/api/products', (req, res) => {
             return;
         }
         res.json(results);
+    });
+});
+
+// Route to handle GET request for fetching product details by ID
+app.get('/api/products/:productId', (req, res) => {
+    const productId = req.params.productId;
+
+    // Query to retrieve product details from the database
+    const query = `SELECT * FROM products WHERE id = ?`;
+
+    // Execute the query with the product ID
+    db.query(query, [productId], (error, results) => {
+        if (error) {
+            console.error('Error fetching product details:', error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+
+        if (results.length === 0) {
+            res.status(404).json({ error: 'Product not found' });
+            return;
+        }
+
+        const product = results[0];
+        res.json(product);
     });
 });
 

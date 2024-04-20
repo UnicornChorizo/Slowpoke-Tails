@@ -67,16 +67,11 @@
                 <img id="productImage" src="" alt="Product Image" class="img-fluid">
             </div>
             <div class="col-md-6">
-                <h2 id="productName">Product Name</h2>
-                <p class="product-description" id="productDescription">Product description will be displayed here.</p>
-                <p><strong>Price:</strong> <span id="productPrice">$200 doubloons</span></p>
-                <p><strong>Availability:</strong> <span id="productAvailability">In stock</span></p>
-                <p><strong>Ingredients:</strong> <span id="productIngredients">Slowpoke Tail, Spices, Herbs, etc.</span>
-                </p>
-                <p><strong>Nutritional Information:</strong> <span id="productNutrition">Calories: XX, Fat: XXg,
-                        Protein: XXg, Carbs: XXg</span></p>
-                <p><strong>Shipping:</strong> <span id="productShipping">Ships within 3-5 business days (if
-                        applicable)</span></p>
+                <h2 id="productName"></h2>
+                <p class="product-description" id="productDescription"></p>
+                <p><strong>Price:</strong> <span id="productPrice"></span></p>
+                <p><strong>Ingredients:</strong> <span id="productIngredients"></span></p>
+                <p><strong>Nutritional Information:</strong> <span id="productNutrition"></span></p>
                 <button id="addToCartBtn" class="btn btn-primary">Add to Cart</button>
             </div>
         </div>
@@ -102,10 +97,8 @@
                     document.getElementById('productName').textContent = product.name;
                     document.getElementById('productDescription').textContent = product.description;
                     document.getElementById('productPrice').textContent = `$${product.price}`;
-                    document.getElementById('productAvailability').textContent = product.availability;
                     document.getElementById('productIngredients').textContent = product.ingredients;
-                    document.getElementById('productNutrition').textContent = product.nutritional_info;
-                    document.getElementById('productShipping').textContent = product.shipping_info;
+                    document.getElementById('productNutrition').textContent = product.nutrition;
                 })
                 .catch(error => console.error('Error fetching product details:', error));
         });
