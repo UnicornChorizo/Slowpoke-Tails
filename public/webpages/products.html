@@ -64,14 +64,15 @@
 
     <section class="food-categories-product">
         <div class="container">
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="product-list">
+            <!-- Each category will have its own container -->
+            <div class="row g-4" id="product-list">
                 <!-- Product listings will be dynamically generated here -->
             </div>
         </div>
     </section>
 
     <footer class="bg-dark text-light text-center py-3">
-        <p>&copy; 2023 Slowpoke Tails</p>
+        <!-- Your footer content -->
     </footer>
 
     <script type="text/javascript" src="../js/scripts.js"></script>
@@ -80,24 +81,40 @@
         fetch('/api/products')
             .then(response => response.json())
             .then(products => {
-                const productList = document.getElementById('product-list');
-
-                // Loop through the products and generate HTML dynamically
+                // Group products by category_id
+                const productsByCategory = {};
                 products.forEach(product => {
-                    const productHTML = `
-                    <div class="col">
-                        <div class="card">
-                            <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
-                            <div class="card-body">
-                                <h5 class="card-title">${product.name}</h5>
-                                <p class="card-text">$${product.price}</p>
-                                <a href="details.html?id=${product.id}" class="btn btn-primary">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                    productList.innerHTML += productHTML;
+                    if (!productsByCategory[product.category_id]) {
+                        productsByCategory[product.category_id] = [];
+                    }
+                    productsByCategory[product.category_id].push(product);
                 });
+
+                // Loop through each category and generate HTML dynamically
+                for (const categoryId in productsByCategory) {
+                    const productList = document.createElement('div');
+                    productList.className = 'container';
+                    productList.innerHTML = `<h3>Category ${categoryId}</h3><div class="row row-cols-1 row-cols-md-3 g-4"></div>`;
+                    const productContainer = productList.querySelector('.row');
+
+                    // Loop through products in the category and generate HTML dynamically
+                    productsByCategory[categoryId].forEach(product => {
+                        const productHTML = `
+                            <div class="col">
+                                <div class="product-container">
+                                    <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="window.location.href='details.html?id=${product.id}'">
+                                    <div class="product-details">
+                                        <h5 class="product-name"><a href="details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
+                                        <p class="product-price">$${product.price}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        productContainer.innerHTML += productHTML;
+                    });
+
+                    document.getElementById('product-list').appendChild(productList);
+                }
             })
             .catch(error => console.error('Error fetching products:', error));
     </script>

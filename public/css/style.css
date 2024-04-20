@@ -121,35 +121,35 @@ p{
 }
 
 /* Product Page Styling */
-.category-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.category-cell {
-    width: 33.33%; /* Each cell takes up 1/3 of the table width */
-    padding: 10px;
+.product-container {
+    padding: 20px;
     text-align: center;
+    width: 250px;
+    height: 250px; 
+    margin: 0 auto; 
 }
 
-.featured-image {
-    width: 100%; /* Ensure images fill the cell width */
-    max-width: 150px; /* Limit the maximum width of the images */
-    height: auto; /* Maintain aspect ratio */
+.product-img {
+    max-width: 150px;
+    height: auto;
+    max-height: 150px;
+    border-radius: 10px;
 }
 
-.food-category {
-    display: flex;
-    flex-wrap: wrap;
+.product-name {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
-.food-category a {
-    text-decoration: none;
-    color: inherit;
+.product-price {
+    margin-bottom: 10px;
 }
 
-.food-category p {
-    margin: 5px 0;
+.category-title {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 24px;
 }
 
 /* Mobile Styling */
