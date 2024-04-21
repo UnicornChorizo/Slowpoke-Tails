@@ -99,6 +99,20 @@ app.get('/api/products/:productId', (req, res) => {
     });
 });
 
+// Searching up products
+app.get('/api/products/search', (req, res) => {
+    const searchTerm = req.query.search;
+    let filteredProducts = products;
+  
+    if (searchTerm) {
+      filteredProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+  
+    res.json(filteredProducts);
+});
+
 // Handle login
 app.post('/login', (req, res) => {
     const email = req.body.loginEmail;

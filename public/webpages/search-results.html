@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page - Slowpoke Tails</title>
+    <title>Search Results - Slowpoke Tails</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,9 +64,9 @@
 
     <section class="food-categories-product">
         <div class="container">
-            <!-- Each category will have its own container -->
-            <div class="row g-4" id="product-list">
-                <!-- Product listings will be dynamically generated here -->
+            <h3>Search Results</h3>
+            <div class="row g-4" id="search-results-list">
+                <!-- Search results will be dynamically generated here -->
             </div>
         </div>
     </section>
@@ -76,63 +75,49 @@
         <!-- Your footer content -->
     </footer>
 
-    <script type="text/javascript" src="../js/scripts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Fetch product data from the server
-            fetch('/api/products')
-                .then(response => response.json())
-                .then(products => {
-                    // Group products by category_id
-                    const productsByCategory = {};
-                    products.forEach(product => {
-                        if (!productsByCategory[product.category_id]) {
-                            productsByCategory[product.category_id] = [];
-                        }
-                        productsByCategory[product.category_id].push(product);
-                    });
+            const params = new URLSearchParams(window.location.search);
+            const searchTerm = params.get('search');
 
-                    // Loop through each category and generate HTML dynamically
-                    for (const categoryId in productsByCategory) {
-                        const productList = document.createElement('div');
-                        productList.className = 'container';
-                        productList.innerHTML = `<h3>Category ${categoryId}</h3><div class="row row-cols-1 row-cols-md-3 g-4"></div>`;
-                        const productContainer = productList.querySelector('.row');
+            // If search term is provided, fetch and render search results
+            if (searchTerm) {
+                // Fetch product data from the server based on the search term
+                fetch(`/api/products?search=${searchTerm}`)
+                    .then(response => response.json())
+                    .then(products => {
+                        const searchResultsList = document.getElementById('search-results-list');
 
-                        // Loop through products in the category and generate HTML dynamically
-                        productsByCategory[categoryId].forEach(product => {
+                        // Clear previous search results
+                        searchResultsList.innerHTML = '';
+
+                        // Render search results
+                        products.forEach(product => {
                             const productHTML = `
-                                <div class="col">
-                                    <div class="product-container">
-                                        <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="window.location.href='details.html?id=${product.id}'">
-                                        <div class="product-details">
-                                            <h5 class="product-name"><a href="details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
-                                            <p class="product-price">$${product.price}</p>
-                                        </div>
-                                    </div>
+                        <div class="col">
+                            <div class="product-container">
+                                <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="redirectToDetails(${product.id})">
+                                <div class="product-details">
+                                    <h5 class="product-name"><a href="details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
+                                    <p class="product-price">$${product.price}</p>
                                 </div>
-                            `;
-                            productContainer.innerHTML += productHTML;
+                            </div>
+                        </div>
+                    `;
+                            searchResultsList.innerHTML += productHTML; // Append each product to the search results list
                         });
-
-                        document.getElementById('product-list').appendChild(productList);
-                    }
-                })
-                .catch(error => console.error('Error fetching products:', error));
-
-            // Handle search form submission
-            document.getElementById('searchForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent the form from submitting normally
-
-                const searchTerm = document.getElementById('searchInput').value.trim();
-
-                if (searchTerm !== '') {
-                    // Redirect to search results page with search query as URL parameter
-                    window.location.href = `search-results.html?search=${searchTerm}`;
-                }
-            });
+                    })
+                    .catch(error => console.error('Error fetching search results:', error));
+            }
         });
+
+        // Function to redirect to details page with product ID as query parameter
+        function redirectToDetails(productId) {
+            window.location.href = `details.html?id=${productId}`;
+        }
+
     </script>
+
 </body>
 
 </html>
