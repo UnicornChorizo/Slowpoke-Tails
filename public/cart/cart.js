@@ -1,102 +1,72 @@
-//filling out the total cost modifiers
-let totalCost = 0.00;
-
 document.addEventListener('DOMContentLoaded', async function () {
-
-    const cartContents = document.getElementById('cart-contents')
-    //grab user id from previous page to complete cart details, userID being used as placeholder until more steps in place.
-    const id = 1;
+    const cartItemsContainer = document.getElementById('cart-items');
 
     try {
-        const response = await fetch(`http://localhost:3000/cart/${id}`)
-        const cartDetails = await response.json()
+        const response = await fetch('/api/cart');
+        const cartDetails = await response.json();
 
-        let cart = document.querySelector('.cart-contents')
+        await Promise.all(cartDetails.map(item => createCartItem(item, cartItemsContainer)));
 
-        await Promise.all(cartDetails.map(item =>
-            createCartItem(item, cart)
-        ))
-
-        const costDiv = document.getElementById('total-amount')
-        getTotalCost(costDiv)
-
-        const checkoutButton = document.getElementById('checkout-button')
-        checkoutButton.addEventListener('click', async function () {
-            try {
-                await Promise.all(cartDetails.map(item => handleRemove(item.cartId, item.productId)));
-                window.location.reload();
-            } catch (err) {
-                console.log(err)
-            }
-        })
+        updateCartSummary(cartDetails);
 
     } catch (err) {
-        console.log(err)
+        console.error('Failed to load cart:', err);
     }
-})
+});
 
-async function createCartItem(cart, container) {
-    //get card price from scryfall api
-    const cardFetch = await fetch(`https://api.scryfall.com/cards/${cart.setIdentifier.toLowerCase()}/${cart.cardNumber}`)
-    const cardFetchJson = await cardFetch.json()
-    const cardPrice = parseFloat(cardFetchJson.prices.usd)
-
-    const cartItem = document.createElement('p')
-    cartItem.className = 'item-details';
-    cartItem.innerHTML =
-        `<img src=${cart.imageUrl}>
-    <h4>Item name: ${cart.productName}</h4>
-    <h4>Price: ${cardPrice}</h4>
-    <h4>Quantity: <p id="current-quantity">${cart.quantity}</p></h4>
-    <input id="quantity-${cart.productId}" type="number" value=${cart.quantity}> <button id="update-quantity-btn-${cart.productId}">Update Quantity</button>
-    <button id="remove-item-btn-${cart.productId}">Remove Item</button>
-    <h4>Total cost: ${cart.quantity * cardPrice}</h4>`
-    totalCost += cart.quantity * cardPrice;
-    container.appendChild(cartItem)
-
-    //adding event listeners to update and remove item to update the database accordingly
-    const updateButton = cartItem.querySelector(`#update-quantity-btn-${cart.productId}`)
-    updateButton.addEventListener('click', () => handleUpdate(cart.cartId, cart.productId))
-
-    const removeButton = cartItem.querySelector(`#remove-item-btn-${cart.productId}`)
-    removeButton.addEventListener('click', () => handleRemove(cart.cartId, cart.productId))
+function createCartItem(item, container) {
+    const cartItemDiv = document.createElement('div');
+    cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
+    cartItemDiv.innerHTML = `
+            <img src="${item.imageUrl}" alt="${item.name}" class="item-image" style="width: 100px;">
+            <span class="item-name-cart">${item.name}</span>
+            <span class="item-price">$${item.price.toFixed(2)}</span>
+            <input type="number" class="form-control item-quantity" value="${item.quantity}" style="width: 60px;">
+            <button class="btn btn-primary" onclick="updateCartItem(${item.id})">Update</button>
+            <button class="btn btn-danger" onclick="removeCartItem(${item.id})">Remove</button>
+            <span class="item-total">$${(item.price * item.quantity).toFixed(2)}</span>
+        `;
+    container.appendChild(cartItemDiv);
 }
 
-function getTotalCost(container) {
-    const tax = totalCost * .0675;
-    const cost = document.createElement('p')
-    cost.innerHTML = `<h1>$${(parseFloat(totalCost) + tax + 15).toFixed(2)}</h1>`
-    container.appendChild(cost);
+function updateCartSummary(cartDetails) {
+    const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    const tax = subtotal * 0.0675;
+    const deliveryFee = 15; // Fixed delivery fee
+    const total = subtotal + tax + deliveryFee;
+
+    document.querySelector('.cart-summary').innerHTML = `
+            <div class="d-flex justify-content-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+            <div class="d-flex justify-content-between"><span>Tax (6.75%)</span><span>$${tax.toFixed(2)}</span></div>
+            <div class="d-flex justify-content-between"><span>Delivery Fee</span><span>$${deliveryFee.toFixed(2)}</span></div>
+            <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+        `;
 }
 
-async function handleUpdate(cartId, productId) {
+async function updateCartItem(productId) {
+    const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
     try {
-        const newQuantity = document.getElementById(`quantity-${productId}`).value
-
-        const response = await fetch(`http://localhost:3000/cart/${productId}`, {
+        await fetch(`/api/cart/${productId}/update`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ quantity: newQuantity, cartId: cartId, productId: productId })
-        })
-            .then(window.location.reload())
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({productId, quantity})
+        });
+        location.reload(); // Reload the page to update the cart
     } catch (err) {
-        console.log(err)
+        console.error('Error updating cart item:', err);
     }
 }
 
-async function handleRemove(cartId, productId) {
+async function removeCartItem(productId) {
     try {
-        const response = await fetch(`http://localhost:3000/cart/${productId}`, {
+        await fetch(`/api/cart/${productId}/remove`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ cartId: cartId, productId: productId })
-        })
-            .then(window.location.reload())
+            headers: {'Content-Type': 'application/json'}
+        });
+        location.reload(); // Reload the page to update the cart
     } catch (err) {
-        console.log(err)
+        console.error('Error removing cart item:', err);
     }
 }
+
+

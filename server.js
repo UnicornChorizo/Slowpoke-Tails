@@ -297,6 +297,116 @@ app.get('/api/products/search', (req, res) => {
     });
 });
 
+app.get('/api/cart', (req, res) => {
+    const sql = 'SELECT * FROM cart_items'; // Fetch all items regardless of user
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching cart items:', err);
+            res.status(500).send('Error fetching cart items');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.post('/api/cart/add', (req, res) => {
+    const { productId, quantity } = req.body;
+
+    // Assume user ID is statically set for now, replace with session-based user ID as necessary
+    const userId = req.session.userId || 1;
+
+    // SQL to check if the product is already in the cart via the carts table
+    const sqlCheck = `
+        SELECT cp.* 
+        FROM cart_products cp
+        JOIN carts c ON cp.cart_id = c.id
+        WHERE c.user_id = ? AND cp.product_id = ?`;
+
+    db.query(sqlCheck, [userId, productId], (err, results) => {
+        if (err) {
+            console.error('Error checking cart:', err);
+            return res.status(500).send('Error checking cart');
+        }
+
+        if (results.length > 0) {
+            // Product exists, update its quantity
+            const newQuantity = results[0].quantity + quantity;
+            const sqlUpdate = 'UPDATE cart_products SET quantity = ? WHERE id = ?';
+            db.query(sqlUpdate, [newQuantity, results[0].id], (updateErr, updateResults) => {
+                if (updateErr) {
+                    console.error('Error updating cart:', updateErr);
+                    return res.status(500).send('Error updating cart');
+                }
+                res.send('Cart updated successfully');
+            });
+        } else {
+            // Product does not exist, insert new. First, get or create a cart ID
+            const sqlGetCart = 'SELECT id FROM carts WHERE user_id = ? AND status = "new"';
+            db.query(sqlGetCart, [userId], (cartErr, cartResults) => {
+                if (cartErr) {
+                    console.error('Error retrieving cart:', cartErr);
+                    return res.status(500).send('Error retrieving cart');
+                }
+
+                let cartId;
+                if (cartResults.length > 0) {
+                    cartId = cartResults[0].id;
+                } else {
+                    // Create a new cart if not existing
+                    const sqlInsertCart = 'INSERT INTO carts (user_id, status, created_at) VALUES (?, "new", NOW())';
+                    db.query(sqlInsertCart, [userId], (insertCartErr, insertCartResults) => {
+                        if (insertCartErr) {
+                            console.error('Error creating new cart:', insertCartErr);
+                            return res.status(500).send('Error creating new cart');
+                        }
+                        cartId = insertCartResults.insertId;
+                    });
+                }
+
+                // Insert new cart product
+                const sqlInsert = 'INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (?, ?, ?)';
+                db.query(sqlInsert, [cartId, productId, quantity], (insertErr, insertResults) => {
+                    if (insertErr) {
+                        console.error('Error adding to cart:', insertErr);
+                        return res.status(500).send('Error adding to cart');
+                    }
+                    res.send('Product added to cart successfully');
+                });
+            });
+        }
+    });
+});
+
+app.put('/api/cart/:productId/update', (req, res) => {
+    const { productId } = req.params;
+    const { quantity } = req.body;
+
+    const sql = 'UPDATE cart_items SET quantity = ? WHERE product_id = ?';
+    db.query(sql, [quantity, productId], (err, result) => {
+        if (err) {
+            console.error('Error updating cart item:', err);
+            res.status(500).send('Error updating cart item');
+            return;
+        }
+        res.send('Cart item updated successfully');
+    });
+});
+
+
+app.delete('/api/cart/:productId/remove', (req, res) => {
+    const { productId } = req.params;
+
+    const sql = 'DELETE FROM cart_items WHERE product_id = ?';
+    db.query(sql, [productId], (err, result) => {
+        if (err) {
+            console.error('Error removing cart item:', err);
+            res.status(500).send('Error removing cart item');
+            return;
+        }
+        res.send('Cart item removed successfully');
+    });
+});
+
 
 // Start the server
 app.listen(port, () => {
