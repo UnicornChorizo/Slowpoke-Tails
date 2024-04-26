@@ -142,14 +142,28 @@ p{
     margin-bottom: 5px;
 }
 
+.product-name a {
+    font-family: "Protest Riot", sans-serif;
+    font-weight: 100;
+    text-decoration: none;
+    color: white;
+}
+
 .product-price {
     margin-bottom: 10px;
 }
 
-.category-title {
-    padding-top: 20px;
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container h3 {
+    font-family: "Protest Riot", sans-serif;
     text-align: center;
-    font-size: 24px;
+    padding-top: 50px;
 }
 
 /* Mobile Styling */
