@@ -1,0 +1,24 @@
+[
+    {
+        "id":77,
+        "name": "Example Product 1",
+        "description": "Product description here",
+        "image_url": "path/to/image1.png",
+        "price": 9.99,
+        "category_id": 1,
+        "featured": 1,
+        "nutrition": "test",
+        "ingredients": "testing"
+    },
+    {
+        "id":78,
+        "name": "Example Product 2",
+        "description": "Another product description",
+        "image_url": "path/to/image2.png",
+        "price": 19.99,
+        "category_id": 2,
+        "featured": 0,
+        "nutrition": "test",
+        "ingredients": "testing"
+    }
+]
