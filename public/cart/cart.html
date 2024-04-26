@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <title>Shopping Cart - Slowpoke Tails</title>
 </head>
-
 <body class="cart">
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,14 +32,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
                 </li>
-                <!-- Login/logout links with unique IDs -->
                 <li class="nav-item">
                     <a class="nav-link" id="loginLink" href="../webpages/login.html">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="logoutLink" href="/logout" style="display: none;">Logout</a>
                 </li>
-
             </ul>
         </div>
     </nav>
@@ -71,86 +67,51 @@
 <script type="text/javascript" src="../js/scripts.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', async function () {
-        const cartItemsContainer = document.getElementById('cart-items');
+        fetchAndUpdateCart(); // Fetch and update cart on load
+        checkAuthentication(); // Check user authentication on load
 
-        try {
-            const response = await fetch('/api/cart');
-            const cartDetails = await response.json();
-
-            await Promise.all(cartDetails.map(item => createCartItem(item, cartItemsContainer)));
-
-            updateCartSummary(cartDetails);
-
-        } catch (err) {
-            console.error('Failed to load cart:', err);
+        async function fetchAndUpdateCart() {
+            try {
+                const response = await fetch('/api/cart');
+                const cartDetails = await response.json();
+                const cartItemsContainer = document.getElementById('cart-items');
+                cartItemsContainer.innerHTML = ''; // Clear existing items
+                cartDetails.forEach(item => createCartItem(item, cartItemsContainer));
+                updateCartSummary(cartDetails); // Update cart summary
+            } catch (err) {
+                console.error('Failed to load cart:', err);
+                alert('Failed to load cart items.');
+            }
         }
-    });
 
-    function createCartItem(item, container) {
-        const cartItemDiv = document.createElement('div');
-        cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
-        cartItemDiv.innerHTML = `
+        function createCartItem(item, container) {
+            const cartItemDiv = document.createElement('div');
+            cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
+            cartItemDiv.innerHTML = `
             <img src="${item.imageUrl}" alt="${item.name}" class="item-image" style="width: 100px;">
             <span class="item-name-cart">${item.name}</span>
             <span class="item-price">$${item.price.toFixed(2)}</span>
-            <input type="number" class="form-control item-quantity" value="${item.quantity}" style="width: 60px;">
+            <input type="number" class="form-control item-quantity" value="${item.quantity}" style="width: 60px;" data-id="${item.id}">
             <button class="btn btn-primary" onclick="updateCartItem(${item.id})">Update</button>
             <button class="btn btn-danger" onclick="removeCartItem(${item.id})">Remove</button>
             <span class="item-total">$${(item.price * item.quantity).toFixed(2)}</span>
         `;
-        container.appendChild(cartItemDiv);
-    }
+            container.appendChild(cartItemDiv);
+        }
 
-    function updateCartSummary(cartDetails) {
-        const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.0675;
-        const total = subtotal + tax + deliveryFee;
+        function updateCartSummary(cartDetails) {
+            const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.0675;
+            const deliveryFee = 5; // Assume a fixed delivery fee for now
+            const total = subtotal + tax + deliveryFee;
 
-        document.querySelector('.cart-summary').innerHTML = `
+            document.querySelector('.cart-summary').innerHTML = `
             <div class="d-flex justify-content-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
             <div class="d-flex justify-content-between"><span>Tax (6.75%)</span><span>$${tax.toFixed(2)}</span></div>
             <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
         `;
-    }
-    async function addItemToCart(productId) {
-        const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
-        try {
-            await fetch(`/api/cart/${productId}/add`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({productId, quantity})
-            });
-            location.reload(); // Reload the page to update the cart
-        } catch (err) {
-            console.error('Error adding item to cart:', err);
         }
-    }
-
-    async function updateCartItem(productId) {
-        const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
-        try {
-            await fetch(`/api/cart/${productId}/update`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({productId, quantity})
-            });
-            location.reload(); // Reload the page to update the cart
-        } catch (err) {
-            console.error('Error updating cart item:', err);
-        }
-    }
-
-    async function removeCartItem(productId) {
-        try {
-            await fetch(`/api/cart/${productId}/remove`, {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json'}
-            });
-            location.reload(); // Reload the page to update the cart
-        } catch (err) {
-            console.error('Error removing cart item:', err);
-        }
-    }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         checkAuthentication();
@@ -175,7 +136,6 @@
             });
     }
 </script>
-
 
 </body>
 </html>

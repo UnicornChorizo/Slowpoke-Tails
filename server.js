@@ -301,6 +301,8 @@ app.get('/api/products/search', (req, res) => {
     });
 });
 
+
+//cart endpoints
 app.get('/api/cart', (req, res) => {
     const sql = 'SELECT * FROM cart_products'; // Fetch all items regardless of user
     db.query(sql, (err, results) => {
