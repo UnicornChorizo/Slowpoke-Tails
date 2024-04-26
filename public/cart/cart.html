@@ -135,6 +135,34 @@
                 console.error('Authentication check failed:', error);
             });
     }
+
+    function addToCart(productId) {
+        fetch(`/api/cart/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: 1  // Assuming the quantity is 1 for simplicity
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add product to cart. Status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(result => {
+                alert('Product added to cart!');
+                // Optional: Update cart UI here if needed
+            })
+            .catch(error => {
+                console.error('Error adding to cart:', error);
+                alert('Error adding to cart: ' + error.message);
+            });
+    }
+
 </script>
 
 </body>
