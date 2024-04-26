@@ -172,7 +172,10 @@ app.post('/upload', upload.single('fileUpload'), async (req, res) => {
     }
 
     const filePath = path.join(__dirname, 'uploads', req.file.filename);
-    const fileExtension = path.extname(req.file.filename).toLowerCase();
+    const fileExtension = path.extname(req.file.originalname).toLowerCase(); // Make sure to use originalname
+
+    console.log('Uploaded file path:', filePath);
+    console.log('Uploaded file extension:', fileExtension);
 
     try {
         if (fileExtension === '.json') {
@@ -182,10 +185,7 @@ app.post('/upload', upload.single('fileUpload'), async (req, res) => {
         } else if (fileExtension === '.csv') {
             const products = [];
             fs.createReadStream(filePath)
-                .pipe(parse({
-                    columns: true,
-                    skip_empty_lines: true
-                }))
+                .pipe(parse({ columns: true, skip_empty_lines: true }))
                 .on('data', (record) => products.push(record))
                 .on('end', async () => {
                     await insertProducts(products, res);
@@ -202,6 +202,7 @@ app.post('/upload', upload.single('fileUpload'), async (req, res) => {
             });
             await insertProducts(products, res);
         } else {
+            console.log('Unsupported file type attempted:', fileExtension); // Log unexpected file type
             throw new Error('Unsupported file type');
         }
     } catch (error) {
@@ -212,29 +213,29 @@ app.post('/upload', upload.single('fileUpload'), async (req, res) => {
 
 
 async function insertProducts(products, res) {
-    const productPromises = products.map(product => {
-        return new Promise((resolve, reject) => {
-            const { id, name, description, image_url, price, category_id, featured } = product;
-            const sql = 'INSERT INTO products (id, name, description, image_url, price, category_id, featured) VALUES (?, ?, ?, ?, ?, ?, ?)';
-            db.query(sql, [id, name, description, image_url, parseFloat(price), parseInt(category_id), parseInt(featured)], (dbErr, result) => {
-                if (dbErr) {
-                    reject(dbErr);
-                } else {
-                    resolve();
-                }
+    try {
+        const promises = products.map(product => {
+            const { id, name, description, image_url, price, category_id, featured, nutrition, ingredients } = product;
+            const sql = 'INSERT INTO products (id, name, description, image_url, price, category_id, featured, nutrition, ingredients) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+            console.log("Inserting product with values:", [id, name, description, image_url, price, category_id, featured, nutrition, ingredients]);
+            return new Promise((resolve, reject) => {
+                db.query(sql, [id, name, description, image_url, parseFloat(price), parseInt(category_id), parseInt(featured), nutrition, ingredients], (err, result) => {
+                    if (err) {
+                        console.error("Error inserting product:", err);
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
             });
         });
-    });
-
-    try {
-        await Promise.all(productPromises);
+        await Promise.all(promises);
         res.send('All products have been successfully inserted.');
-    } catch (dbErr) {
-        console.error('Database insertion error:', dbErr);
-        res.status(500).send('Database insertion error: ' + dbErr.message);
+    } catch (err) {
+        console.error('Database insertion error:', err);
+        res.status(500).send('Database insertion error: ' + err.message);
     }
 }
-
 
 //API Endpoints for product edit page
 app.post('/api/products/add', upload.single('image'), (req, res) => {
@@ -314,70 +315,62 @@ app.get('/api/cart', (req, res) => {
 
 app.post('/api/cart/add', (req, res) => {
     const { productId, quantity } = req.body;
+    const userId = req.session.userId || 1;  // Assume default userId if not found in session
 
-    // Assume user ID is statically set for now, replace with session-based user ID as necessary
-    const userId = req.session.userId || 1;
+    // Function to query the database with Promise
+    const queryDb = (sql, params) => new Promise((resolve, reject) => {
+        db.query(sql, params, (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
 
-    // SQL to check if the product is already in the cart via the carts table
-    const sqlCheck = `
-        SELECT cp.* 
-        FROM cart_products cp
-        JOIN carts c ON cp.cart_id = c.id
-        WHERE c.user_id = ? AND cp.product_id = ?`;
+    const manageCart = async () => {
+        try {
+            // Check if the product is already in the user's cart
+            const cartCheckSql = `
+                SELECT cp.cart_id, cp.quantity 
+                FROM cart_products cp
+                JOIN carts c ON cp.cart_id = c.id
+                WHERE c.user_id = ? AND cp.product_id = ? AND c.status = 'new'`;
+            const cartCheckResults = await queryDb(cartCheckSql, [userId, productId]);
 
-    db.query(sqlCheck, [userId, productId], (err, results) => {
-        if (err) {
-            console.error('Error checking cart:', err);
-            return res.status(500).send('Error checking cart');
-        }
-
-        if (results.length > 0) {
-            // Product exists, update its quantity
-            const newQuantity = results[0].quantity + quantity;
-            const sqlUpdate = 'UPDATE cart_products SET quantity = ? WHERE id = ?';
-            db.query(sqlUpdate, [newQuantity, results[0].id], (updateErr, updateResults) => {
-                if (updateErr) {
-                    console.error('Error updating cart:', updateErr);
-                    return res.status(500).send('Error updating cart');
-                }
+            if (cartCheckResults.length > 0) {
+                // Product exists in the cart, update its quantity
+                const existingCartItem = cartCheckResults[0];
+                const newQuantity = existingCartItem.quantity + quantity;
+                const updateSql = 'UPDATE cart_products SET quantity = ? WHERE cart_id = ? AND product_id = ?';
+                await queryDb(updateSql, [newQuantity, existingCartItem.cart_id, productId]);
                 res.send('Cart updated successfully');
-            });
-        } else {
-            // Product does not exist, insert new. First, get or create a cart ID
-            const sqlGetCart = 'SELECT id FROM carts WHERE user_id = ? AND status = "new"';
-            db.query(sqlGetCart, [userId], (cartErr, cartResults) => {
-                if (cartErr) {
-                    console.error('Error retrieving cart:', cartErr);
-                    return res.status(500).send('Error retrieving cart');
-                }
+            } else {
+                // Product does not exist, insert new. Get or create a cart ID
+                const cartIdSql = 'SELECT id FROM carts WHERE user_id = ? AND status = "new"';
+                const cartResults = await queryDb(cartIdSql, [userId]);
 
-                let cartId;
-                if (cartResults.length > 0) {
-                    cartId = cartResults[0].id;
-                } else {
-                    // Create a new cart if not existing
-                    const sqlInsertCart = 'INSERT INTO carts (user_id, status, created_at) VALUES (?, "new", NOW())';
-                    db.query(sqlInsertCart, [userId], (insertCartErr, insertCartResults) => {
-                        if (insertCartErr) {
-                            console.error('Error creating new cart:', insertCartErr);
-                            return res.status(500).send('Error creating new cart');
-                        }
-                        cartId = insertCartResults.insertId;
-                    });
+                let cartId = cartResults.length > 0 ? cartResults[0].id : null;
+
+                if (!cartId) {
+                    // No existing cart, create a new one
+                    const insertCartSql = 'INSERT INTO carts (user_id, status, created_at) VALUES (?, "new", NOW())';
+                    const cartInsertResult = await queryDb(insertCartSql, [userId]);
+                    cartId = cartInsertResult.insertId;
                 }
 
                 // Insert new cart product
-                const sqlInsert = 'INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (?, ?, ?)';
-                db.query(sqlInsert, [cartId, productId, quantity], (insertErr, insertResults) => {
-                    if (insertErr) {
-                        console.error('Error adding to cart:', insertErr);
-                        return res.status(500).send('Error adding to cart');
-                    }
-                    res.send('Product added to cart successfully');
-                });
-            });
+                const insertCartProductSql = 'INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (?, ?, ?)';
+                await queryDb(insertCartProductSql, [cartId, productId, quantity]);
+                res.send('Product added to cart successfully');
+            }
+        } catch (err) {
+            console.error('Error managing cart:', err);
+            res.status(500).send('Error managing cart');
         }
-    });
+    };
+
+    manageCart();
 });
 
 app.put('/api/cart/:productId/update', (req, res) => {
