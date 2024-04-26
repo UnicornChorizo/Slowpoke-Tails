@@ -42,6 +42,19 @@ function updateCartSummary(cartDetails) {
             <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
         `;
 }
+async function addItemToCart(productId) {
+    const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
+    try {
+        await fetch(`/api/cart/${productId}/add`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({productId, quantity})
+        });
+        location.reload(); // Reload the page to update the cart
+    } catch (err) {
+        console.error('Error adding item to cart:', err);
+    }
+}
 
 async function updateCartItem(productId) {
     const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
@@ -68,5 +81,3 @@ async function removeCartItem(productId) {
         console.error('Error removing cart item:', err);
     }
 }
-
-

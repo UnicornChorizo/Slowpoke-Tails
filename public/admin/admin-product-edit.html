@@ -126,7 +126,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../js/scripts.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         fetch('/api/products')
             .then(response => response.json())
             .then(data => {
@@ -137,7 +137,7 @@
                 });
             });
 
-        document.getElementById('editProductForm').addEventListener('submit', function(event) {
+        document.getElementById('editProductForm').addEventListener('submit', function (event) {
             event.preventDefault();
             const id = document.getElementById('productId').value;
             const name = document.getElementById('editProductName').value;
@@ -151,7 +151,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ id, name, price, imageUrl, category, description })
+                body: JSON.stringify({id, name, price, imageUrl, category, description})
             })
                 .then(response => {
                     if (response.ok) return response.text();
@@ -171,13 +171,15 @@
             const imageUrl = document.getElementById('imageUrl').files[0];
             const category = document.getElementById('category').value;
             const description = document.getElementById('description').value;
+            const featured = document.getElementById('featured').value;
 
             const formData = new FormData();
-            formData.append('name', productName);
+            formData.append('name', productName); // Updated key name to match the 'name' column in the products table
             formData.append('price', price);
-            formData.append('imageUrl', imageUrl);
-            formData.append('category', category);
+            formData.append('image_url', imageUrl); // Updated key name to match the 'image_url' column in the products table
+            formData.append('category_id', category); // Updated key name to match the 'category_id' column in the products table
             formData.append('description', description);
+            formData.append('featured', featured);
 
             fetch('/api/products/add', {
                 method: 'POST',
@@ -195,11 +197,13 @@
                     document.getElementById('category').value = '';
                     document.getElementById('description').value = '';
                     document.getElementById('imageUrl').value = '';
+                    document.getElementById('featured').value = '';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         });
+
     });
 </script>
 

@@ -59,97 +59,137 @@
 </head>
 
 <body class="details">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="../index.html">
-                <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
-                <span class="font">Slowpoke Tails</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="../index.html">
+            <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
+            <span class="font">Slowpoke Tails</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/products/products.html">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../webpages/about.html">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
-                    </li>
-                    <!-- Login/logout links with unique IDs -->
-                    <li class="nav-item">
-                        <a class="nav-link" id="loginLink" href="../webpages/login.html">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="logoutLink" href="/logout" style="display: none;">Logout</a>
-                    </li>
-                </ul>
-            </div>
-
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
-            <a id="cartButton" class="btn btn-outline-primary ms-2" href="../cart/cart.html">
-                <i class="bi bi-cart"></i>
-            </a>
-
-            <div id="cartPopup" class="cart-popup">
-                <!--To be added-->
-            </div>
-        </nav>
-    </header>
-
-    <main class="container my-4">
-        <div class="row">
-            <div class="col-md-6-l">
-                <img id="productImage" src="" alt="Product Image" class="img-fluid">
-            </div>
-            <div class="col-md-6-r">
-                <h2 id="productName"></h2>
-                <p class="product-description" id="productDescription"></p>
-                <p><strong>Price:</strong> <span id="productPrice"></span></p>
-                <p><strong>Ingredients:</strong> <span id="productIngredients"></span></p>
-                <p><strong>Nutritional Information:</strong> <span id="productNutrition"></span></p>
-                <button id="addToCartBtn" class="btn btn-primary">Add to Cart</button>
-            </div>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/products.html">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../webpages/about.html">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
+                </li>
+                <!-- Login/logout links with unique IDs -->
+                <li class="nav-item">
+                    <a class="nav-link" id="loginLink" href="../webpages/login.html">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logoutLink" href="/logout" style="display: none;">Logout</a>
+                </li>
+            </ul>
         </div>
-    </main>
 
-    <footer class="bg-dark text-light text-center py-3">
-        <p>&copy; 2023 Slowpoke Tails</p>
-    </footer>
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
 
-    <script type="text/javascript" src="../js/scripts.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Retrieve the product ID from the URL query parameter
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
+        <a id="cartButton" class="btn btn-outline-primary ms-2" href="../cart/cart.html">
+            <i class="bi bi-cart"></i>
+        </a>
 
-            // Fetch product details based on the product ID
-            fetch(`/api/products/${productId}`)
-                .then(response => response.json())
-                .then(product => {
-                    // Update the HTML content with product details
-                    document.getElementById('productImage').src = product.image_url;
-                    document.getElementById('productName').textContent = product.name;
-                    document.getElementById('productDescription').textContent = product.description;
-                    document.getElementById('productPrice').textContent = `$${product.price.toFixed(2)}`;
-                    document.getElementById('productIngredients').textContent = product.ingredients;
-                    document.getElementById('productNutrition').textContent = product.nutrition;
-                })
-                .catch(error => console.error('Error fetching product details:', error));
+        <div id="cartPopup" class="cart-popup">
+            <!--To be added-->
+        </div>
+    </nav>
+</header>
+
+<main class="container my-4">
+    <div class="row">
+        <div class="col-md-6-l">
+            <img id="productImage" src="" alt="Product Image" class="img-fluid">
+        </div>
+        <div class="col-md-6-r">
+            <h2 id="productName"></h2>
+            <p class="product-description" id="productDescription"></p>
+            <p><strong>Price:</strong> <span id="productPrice"></span></p>
+            <p><strong>Ingredients:</strong> <span id="productIngredients"></span></p>
+            <p><strong>Nutritional Information:</strong> <span id="productNutrition"></span></p>
+            <button id="addToCartBtn" class="btn btn-primary" data-product-id="">Add to Cart</button>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-light text-center py-3">
+    <p>&copy; 2023 Slowpoke Tails</p>
+</footer>
+
+<script type="text/javascript" src="../js/scripts.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        fetch(`/api/products/${productId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch product details');
+                }
+                return response.json();
+            })
+            .then(product => {
+                document.getElementById('productImage').src = product.image_url;
+                document.getElementById('productName').textContent = product.name;
+                document.getElementById('productDescription').textContent = product.description;
+                document.getElementById('productPrice').textContent = `$${product.price.toFixed(2)}`;
+                document.getElementById('productIngredients').textContent = product.ingredients || 'Not specified';
+                document.getElementById('productNutrition').textContent = product.nutrition || 'Not specified';
+
+                // Set product ID on the button for later use
+                document.getElementById('addToCartBtn').setAttribute('data-product-id', product.id);
+            })
+            .catch(error => {
+                console.error('Error fetching product details:', error);
+                alert('Error fetching product details.');
+            });
+
+        // Handle "Add to Cart" button click
+        document.getElementById('addToCartBtn').addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+            addToCart(productId);
         });
-    </script>
+    });
+
+    function addToCart(productId) {
+        fetch(`/api/cart/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: 1  // Assuming the quantity is 1 for simplicity
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add product to cart');
+                }
+                return response.json();
+            })
+            .then(result => {
+                alert('Product added to cart!');
+            })
+            .catch(error => {
+                console.error('Error adding to cart:', error);
+                alert('Error adding to cart.');
+            });
+    }
+</script>
 </body>
 
 </html>
