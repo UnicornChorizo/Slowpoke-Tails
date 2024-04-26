@@ -151,6 +151,29 @@
             console.error('Error removing cart item:', err);
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        checkAuthentication();
+    });
+
+    function checkAuthentication() {
+        fetch('/check-authentication')
+            .then(response => response.json())
+            .then(data => {
+                const loginLink = document.getElementById('loginLink');
+                const logoutLink = document.getElementById('logoutLink');
+                if (data.isLoggedIn) {
+                    loginLink.style.display = 'none';
+                    logoutLink.style.display = 'block';
+                } else {
+                    loginLink.style.display = 'block';
+                    logoutLink.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Authentication check failed:', error);
+            });
+    }
 </script>
 
 
