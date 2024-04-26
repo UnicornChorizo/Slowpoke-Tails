@@ -125,6 +125,83 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../js/scripts.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('productSelect');
+                data.forEach(product => {
+                    let option = new Option(product.name, product.id);
+                    select.appendChild(option);
+                });
+            });
+
+        document.getElementById('editProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const id = document.getElementById('productId').value;
+            const name = document.getElementById('editProductName').value;
+            const price = document.getElementById('editPrice').value;
+            const category = document.getElementById('editCategory').value;
+            const description = document.getElementById('editDescription').value;
+            const imageUrl = document.getElementById('editImageUrl').value;
+
+            fetch('/api/products/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, name, price, imageUrl, category, description })
+            })
+                .then(response => {
+                    if (response.ok) return response.text();
+                    throw new Error('Problem updating product');
+                })
+                .then(data => {
+                    alert(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        document.getElementById('new-prod-buttons').addEventListener('click', function(event) {
+            const productName = document.getElementById('productName').value;
+            const price = document.getElementById('price').value;
+            const imageUrl = document.getElementById('imageUrl').files[0];
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+
+            const formData = new FormData();
+            formData.append('name', productName);
+            formData.append('price', price);
+            formData.append('imageUrl', imageUrl);
+            formData.append('category', category);
+            formData.append('description', description);
+
+            fetch('/api/products/add', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) return response.text();
+                    throw new Error('Problem adding product');
+                })
+                .then(data => {
+                    alert(data);
+                    // Clear form after submission
+                    document.getElementById('productName').value = '';
+                    document.getElementById('price').value = '';
+                    document.getElementById('category').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('imageUrl').value = '';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>
 
 </body>
 </html>

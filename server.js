@@ -239,6 +239,65 @@ async function insertProducts(products, res) {
     }
 }
 
+
+//API Endpoints for product edit page
+app.post('/api/products/add', async (req, res) => {
+    const { name, price, imageUrl, category, description } = req.body;
+    const sql = 'INSERT INTO products (name, description, image_url, price, category) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [name, description, imageUrl, price, category], (err, result) => {
+        if (err) {
+            console.error('Error adding product:', err);
+            res.status(500).send('Error adding product');
+            return;
+        }
+        res.status(201).send('Product added successfully');
+    });
+});
+
+app.get('/api/products', (req, res) => {
+    db.query('SELECT * FROM products', (err, results) => {
+        if (err) {
+            console.error('Error fetching products:', err);
+            res.status(500).send('Error fetching products');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.post('/api/products/update', (req, res) => {
+    const { id, name, price, imageUrl, category, description } = req.body;
+    const sql = 'UPDATE products SET name = ?, description = ?, image_url = ?, price = ?, category = ? WHERE id = ?';
+    db.query(sql, [name, description, imageUrl, price, category, id], (err, result) => {
+        if (err) {
+            console.error('Error updating product:', err);
+            res.status(500).send('Error updating product');
+            return;
+        }
+        res.send('Product updated successfully');
+    });
+});
+
+//Endpoint for search function in admin-product-edit.html
+// Fetch Products based on search query for editing
+app.get('/api/products/search', (req, res) => {
+    const searchTerm = req.query.q;
+    if (!searchTerm) {
+        res.json([]);
+        return;
+    }
+    const sql = "SELECT * FROM products WHERE name LIKE CONCAT('%', ?, '%') LIMIT 3";
+    db.query(sql, [searchTerm], (err, results) => {
+        if (err) {
+            console.error('Error searching products:', err);
+            res.status(500).send('Error searching products');
+            return;
+        }
+        res.json(results);
+    });
+});
+
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
