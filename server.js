@@ -115,25 +115,31 @@ app.get('/api/products/search', (req, res) => {
 
 // Handle login
 app.post('/login', (req, res) => {
-    const email = req.body.loginEmail;
-    const password = req.body.loginPassword;
+    const { email, password } = req.body;
 
+    // Query the database to find the user with the provided email and password
     db.query('SELECT * FROM users WHERE email = ? AND password = ?', [email, password], (err, results) => {
         if (err) {
+            console.error('Error querying database:', err);
             return res.status(500).send('Internal Server Error');
         }
 
+        // Check if a user was found
         if (results.length > 0) {
+            // User found, create a session and store the user ID and role
             const user = results[0];
-            req.session.userId = user.id; // Store user ID in session
-
+            req.session.userId = user.id;
+            req.session.role = user.type; // Assuming the user's role is stored in the 'type' column
             if (user.type === 'admin') {
-                res.redirect('webpages/admin.html'); // Redirect admin to admin.html
-            } else if (user.type === 'shopper') {
-                res.redirect('/index.html'); // Redirect shopper to index.html
+                // Redirect admin users to the admin page
+                return res.redirect('/admin/admin.html');
+            } else {
+                // Redirect regular users to the index page
+                return res.redirect('/index.html');
             }
         } else {
-            res.send('Invalid email or password');
+            // No user found with the provided credentials
+            return res.status(401).send('Invalid email or password');
         }
     });
 });
