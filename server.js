@@ -47,7 +47,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ dest: './uploads' });
 
 // Route to serve the homepage
 app.get('/', (req, res) => {
@@ -261,16 +261,21 @@ app.get('/api/products', (req, res) => {
     });
 });
 
-app.post('/api/products/update', (req, res) => {
-    const { id, name, price, imageUrl, category, description } = req.body;
-    const sql = 'UPDATE products SET name = ?, description = ?, image_url = ?, price = ?, category_id = ? WHERE id = ?';
-    db.query(sql, [name, description, imageUrl, price, category, id], (err, result) => {
-        if (err) {
-            console.error('Error updating product:', err);
+// Update product information
+app.post('/api/products/update', upload.single('image'), (req, res) => {
+    const { id, name, price, category_id, description } = req.body;
+    let imagePath = req.file ? req.file.path : req.body.image_url; // Use uploaded file path or existing image URL
+
+    const sql = 'UPDATE products SET name = ?, price = ?, category_id = ?, description = ?, image_url = ? WHERE id = ?';
+    const values = [name, price, category_id, description, imagePath, id];
+
+    db.query(sql, values, (error, results) => {
+        if (error) {
+            console.error('Error updating product:', error);
             res.status(500).send('Error updating product');
-            return;
+        } else {
+            res.send('Product updated successfully');
         }
-        res.send('Product updated successfully');
     });
 });
 
@@ -294,7 +299,7 @@ app.get('/api/products/search', (req, res) => {
 });
 
 app.get('/api/cart', (req, res) => {
-    const sql = 'SELECT * FROM cart_items'; // Fetch all items regardless of user
+    const sql = 'SELECT * FROM cart_products'; // Fetch all items regardless of user
     db.query(sql, (err, results) => {
         if (err) {
             console.error('Error fetching cart items:', err);
