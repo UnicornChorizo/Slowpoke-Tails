@@ -35,36 +35,33 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Add event listener to the login form
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const loginLogoutLink = document.getElementById('loginLogoutLink');
 
-    // Send an AJAX request to the server to login the user
-    fetch('/login', {
-        method: 'POST',
-        body: new FormData(this),
-    })
+    // Make an asynchronous request to check if the user is logged in
+    fetch('/check-authentication')
         .then(response => {
-            if (response.ok) {
-                // Login successful, redirect based on user's role
-                return response.text(); // Assuming the server sends back a response indicating the redirection URL
-            } else {
-                // Handle login failure
-                alert('Login failed');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
         })
-        .then(redirectUrl => {
-            if (redirectUrl) {
-                // Redirect the user to the specified URL
-                window.location.href = redirectUrl;
+        .then(data => {
+            // Check if the user is logged in based on the response from the server
+            const isLoggedIn = data.isLoggedIn;
+
+            if (isLoggedIn) {
+                // If the user is logged in, display the "Logout" link
+                loginLogoutLink.innerHTML = '<a class="nav-link" href="/logout">Logout</a>';
+            } else {
+                // If the user is not logged in, display the "Login" link
+                loginLogoutLink.innerHTML = '<a class="nav-link" href="webpages/login.html">Login</a>';
             }
         })
         .catch(error => {
-            console.error('Error logging in:', error);
-            alert('An error occurred while logging in');
+            console.error('Error checking authentication:', error);
         });
 });
-
 
 const prevButton = document.getElementById('prevSlide');
 const nextButton = document.getElementById('nextSlide');
