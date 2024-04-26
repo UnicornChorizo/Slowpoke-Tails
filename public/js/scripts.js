@@ -36,31 +36,43 @@ document.addEventListener('click', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    const loginLogoutLink = document.getElementById('loginLogoutLink');
+    // Function to fetch authentication status from the server
+    function checkAuthentication() {
+        fetch('/check-authentication')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update navbar based on authentication status
+                const isLoggedIn = data.isLoggedIn;
+                updateNavbar(isLoggedIn);
+            })
+            .catch(error => {
+                console.error('Error checking authentication:', error);
+            });
+    }
 
-    // Make an asynchronous request to check if the user is logged in
-    fetch('/check-authentication')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Check if the user is logged in based on the response from the server
-            const isLoggedIn = data.isLoggedIn;
+    // Function to update navbar links based on authentication status
+    function updateNavbar(isLoggedIn) {
+        const loginLink = document.getElementById('loginLink');
+        const logoutLink = document.getElementById('logoutLink');
 
-            if (isLoggedIn) {
-                // If the user is logged in, display the "Logout" link
-                loginLogoutLink.innerHTML = '<a class="nav-link" href="/logout">Logout</a>';
-            } else {
-                // If the user is not logged in, display the "Login" link
-                loginLogoutLink.innerHTML = '<a class="nav-link" href="webpages/login.html">Login</a>';
-            }
-        })
-        .catch(error => {
-            console.error('Error checking authentication:', error);
-        });
+        if (isLoggedIn) {
+            // User is logged in, display logout link and hide login link
+            loginLink.style.display = 'none';
+            logoutLink.style.display = 'block';
+        } else {
+            // User is not logged in, display login link and hide logout link
+            loginLink.style.display = 'block';
+            logoutLink.style.display = 'none';
+        }
+    }
+
+    // Check authentication status when the page loads
+    checkAuthentication();
 });
 
 const prevButton = document.getElementById('prevSlide');

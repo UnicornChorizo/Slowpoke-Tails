@@ -15,12 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Use express-session middleware
 app.use(session({
-    secret: '123456789', // Replace with your own secret key
+    secret: '123456789', // Secret Key
     resave: false,
     saveUninitialized: true
 }));
 
-// Middleware to check if the user is authenticated
+// Middleware to check authentication status
 function isAuthenticated(req, res, next) {
     if (req.session && req.session.userId) {
         // If the user ID is set in the session, the user is authenticated
