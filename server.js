@@ -305,6 +305,8 @@ app.get('/api/products/search', (req, res) => {
     });
 });
 
+
+//cart endpoints
 app.get('/api/cart', (req, res) => {
     const sql = 'SELECT * FROM cart_products'; // Fetch all items regardless of user
     db.query(sql, (err, results) => {
@@ -319,62 +321,22 @@ app.get('/api/cart', (req, res) => {
 
 app.post('/api/cart/add', (req, res) => {
     const { productId, quantity } = req.body;
-    const userId = req.session.userId || 1;  // Assume default userId if not found in session
+    const userId = req.session.userId || 1;  // Fallback user ID for demonstration
 
-    // Function to query the database with Promise
-    const queryDb = (sql, params) => new Promise((resolve, reject) => {
-        db.query(sql, params, (err, results) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(results);
-            }
-        });
-    });
+    // Assume cart_products table with fields: cart_id, product_id, quantity
+    const sql = `INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)`;
 
-    const manageCart = async () => {
-        try {
-            // Check if the product is already in the user's cart
-            const cartCheckSql = `
-                SELECT cp.cart_id, cp.quantity 
-                FROM cart_products cp
-                JOIN carts c ON cp.cart_id = c.id
-                WHERE c.user_id = ? AND cp.product_id = ? AND c.status = 'new'`;
-            const cartCheckResults = await queryDb(cartCheckSql, [userId, productId]);
+    // Assuming 'cart_id' is fetched or predefined, here we use a dummy value for example
+    const cartId = 1;  // Normally, you'd fetch or determine this based on session or user
 
-            if (cartCheckResults.length > 0) {
-                // Product exists in the cart, update its quantity
-                const existingCartItem = cartCheckResults[0];
-                const newQuantity = existingCartItem.quantity + quantity;
-                const updateSql = 'UPDATE cart_products SET quantity = ? WHERE cart_id = ? AND product_id = ?';
-                await queryDb(updateSql, [newQuantity, existingCartItem.cart_id, productId]);
-                res.send('Cart updated successfully');
-            } else {
-                // Product does not exist, insert new. Get or create a cart ID
-                const cartIdSql = 'SELECT id FROM carts WHERE user_id = ? AND status = "new"';
-                const cartResults = await queryDb(cartIdSql, [userId]);
-
-                let cartId = cartResults.length > 0 ? cartResults[0].id : null;
-
-                if (!cartId) {
-                    // No existing cart, create a new one
-                    const insertCartSql = 'INSERT INTO carts (user_id, status, created_at) VALUES (?, "new", NOW())';
-                    const cartInsertResult = await queryDb(insertCartSql, [userId]);
-                    cartId = cartInsertResult.insertId;
-                }
-
-                // Insert new cart product
-                const insertCartProductSql = 'INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (?, ?, ?)';
-                await queryDb(insertCartProductSql, [cartId, productId, quantity]);
-                res.send('Product added to cart successfully');
-            }
-        } catch (err) {
-            console.error('Error managing cart:', err);
-            res.status(500).send('Error managing cart');
+    db.query(sql, [cartId, productId, quantity], (err, result) => {
+        if (err) {
+            console.error('Error adding product to cart:', err);
+            res.status(500).send('Error adding product to cart');
+            return;
         }
-    };
-
-    manageCart();
+        res.status(201).send('Product added to cart successfully');
+    });
 });
 
 app.put('/api/cart/:productId/update', (req, res) => {
