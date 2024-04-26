@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,42 +9,44 @@
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <title>Shopping Cart - Slowpoke Tails</title>
 </head>
-<body class="cart">
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="../index.html">
-            <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
-            <span class="font">Slowpoke Tails</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/products/products.html">Menu</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../webpages/about.html">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
-                </li>
-                <!-- Login/logout links with unique IDs -->
-                <li class="nav-item">
-                    <a class="nav-link" id="loginLink" href="../webpages/login.html">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="logoutLink" href="/logout" style="display: none;">Logout</a>
-                </li>
 
-            </ul>
-        </div>
-    </nav>
-</header>
+<body class="cart">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../images/Slowpoke-Tails.png" alt="Slowpoke Tails Logo" width="50">
+                <span class="font">Slowpoke Tails</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products/products.html">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../webpages/about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
+                    </li>
+                    <!-- Login/logout links with unique IDs -->
+                    <li class="nav-item">
+                        <a class="nav-link" id="loginLink" href="../webpages/login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="logoutLink" href="/logout" style="display: none;">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
 
     <main class="cart">
         <div class="container my-4">
@@ -74,29 +77,30 @@
         <p>&copy; 2023 Slowpoke Tails</p>
     </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="../js/scripts.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', async function () {
-        const cartItemsContainer = document.getElementById('cart-items');
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../js/scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            convertPrices('USD');
+            const cartItemsContainer = document.getElementById('cart-items');
 
-        try {
-            const response = await fetch('/api/cart');
-            const cartDetails = await response.json();
+            try {
+                const response = await fetch('/api/cart');
+                const cartDetails = await response.json();
 
-            await Promise.all(cartDetails.map(item => createCartItem(item, cartItemsContainer)));
+                await Promise.all(cartDetails.map(item => createCartItem(item, cartItemsContainer)));
 
-            updateCartSummary(cartDetails);
+                updateCartSummary(cartDetails);
 
-        } catch (err) {
-            console.error('Failed to load cart:', err);
-        }
-    });
+            } catch (err) {
+                console.error('Failed to load cart:', err);
+            }
+        });
 
-    function createCartItem(item, container) {
-        const cartItemDiv = document.createElement('div');
-        cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
-        cartItemDiv.innerHTML = `
+        function createCartItem(item, container) {
+            const cartItemDiv = document.createElement('div');
+            cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
+            cartItemDiv.innerHTML = `
             <img src="${item.imageUrl}" alt="${item.name}" class="item-image" style="width: 100px;">
             <span class="item-name-cart">${item.name}</span>
             <span class="item-price">$${item.price.toFixed(2)}</span>
@@ -105,63 +109,63 @@
             <button class="btn btn-danger" onclick="removeCartItem(${item.id})">Remove</button>
             <span class="item-total">$${(item.price * item.quantity).toFixed(2)}</span>
         `;
-        container.appendChild(cartItemDiv);
-    }
+            container.appendChild(cartItemDiv);
+        }
 
-    function updateCartSummary(cartDetails) {
-        const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-        const tax = subtotal * 0.0675;
-        const total = subtotal + tax + deliveryFee;
+        function updateCartSummary(cartDetails) {
+            const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            const tax = subtotal * 0.0675;
+            const total = subtotal + tax + deliveryFee;
 
-        document.querySelector('.cart-summary').innerHTML = `
+            document.querySelector('.cart-summary').innerHTML = `
             <div class="d-flex justify-content-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
             <div class="d-flex justify-content-between"><span>Tax (6.75%)</span><span>$${tax.toFixed(2)}</span></div>
             <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
         `;
-    }
-    async function addItemToCart(productId) {
-        const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
-        try {
-            await fetch(`/api/cart/${productId}/add`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({productId, quantity})
-            });
-            location.reload(); // Reload the page to update the cart
-        } catch (err) {
-            console.error('Error adding item to cart:', err);
         }
-    }
-
-    async function updateCartItem(productId) {
-        const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
-        try {
-            await fetch(`/api/cart/${productId}/update`, {
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({productId, quantity})
-            });
-            location.reload(); // Reload the page to update the cart
-        } catch (err) {
-            console.error('Error updating cart item:', err);
+        async function addItemToCart(productId) {
+            const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
+            try {
+                await fetch(`/api/cart/${productId}/add`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId, quantity })
+                });
+                location.reload(); // Reload the page to update the cart
+            } catch (err) {
+                console.error('Error adding item to cart:', err);
+            }
         }
-    }
 
-    async function removeCartItem(productId) {
-        try {
-            await fetch(`/api/cart/${productId}/remove`, {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json'}
-            });
-            location.reload(); // Reload the page to update the cart
-        } catch (err) {
-            console.error('Error removing cart item:', err);
+        async function updateCartItem(productId) {
+            const quantity = document.querySelector(`input.item-quantity[data-id='${productId}']`).value;
+            try {
+                await fetch(`/api/cart/${productId}/update`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId, quantity })
+                });
+                location.reload(); // Reload the page to update the cart
+            } catch (err) {
+                console.error('Error updating cart item:', err);
+            }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        checkAuthentication();
-    });
+        async function removeCartItem(productId) {
+            try {
+                await fetch(`/api/cart/${productId}/remove`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                location.reload(); // Reload the page to update the cart
+            } catch (err) {
+                console.error('Error removing cart item:', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            checkAuthentication();
+        });
 
         function checkAuthentication() {
             fetch('/check-authentication')
@@ -214,8 +218,8 @@
                 const basePrice = parseFloat(priceElement.getAttribute('data-base-price'));
                 priceElement.textContent = `${(basePrice * rate).toFixed(2)} ${currency}`;
             });
-    }
-</script>
+        }
+    </script>
 
 
 </body>
