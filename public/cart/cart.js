@@ -32,13 +32,11 @@ function createCartItem(item, container) {
 function updateCartSummary(cartDetails) {
     const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
     const tax = subtotal * 0.0675;
-    const deliveryFee = 15; // Fixed delivery fee
     const total = subtotal + tax + deliveryFee;
 
     document.querySelector('.cart-summary').innerHTML = `
             <div class="d-flex justify-content-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
             <div class="d-flex justify-content-between"><span>Tax (6.75%)</span><span>$${tax.toFixed(2)}</span></div>
-            <div class="d-flex justify-content-between"><span>Delivery Fee</span><span>$${deliveryFee.toFixed(2)}</span></div>
             <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
         `;
 }
