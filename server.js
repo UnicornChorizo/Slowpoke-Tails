@@ -99,19 +99,24 @@ app.get('/api/products/:productId', (req, res) => {
     });
 });
 
-// Searching up products
+// Searching for products
 app.get('/api/products/search', (req, res) => {
     const searchTerm = req.query.search;
-    let filteredProducts = products;
-  
-    if (searchTerm) {
-      filteredProducts = products.filter(product => 
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+    if (!searchTerm) {
+        res.json([]);
+        return;
     }
-  
-    res.json(filteredProducts);
+    const sql = "SELECT * FROM products WHERE name LIKE CONCAT('%', ?, '%') LIMIT 3";
+    db.query(sql, [searchTerm], (err, results) => {
+        if (err) {
+            console.error('Error searching products:', err);
+            res.status(500).send('Error searching products');
+            return;
+        }
+        res.json(results);
+    });
 });
+
 
 // Handle login
 app.post('/login', (req, res) => {

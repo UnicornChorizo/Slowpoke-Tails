@@ -30,16 +30,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Home</a>
+                        <a class="nav-link" href="../index.html#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/products/products.html">Menu</a>
+                        <a class="nav-link" href="/products/products.html#food-categories-product">Menu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../webpages/about.html">About Us</a>
+                        <a class="nav-link" href="../webpages/about.html#about">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
+                        <a class="nav-link" href="../webpages/contact.html#contact">Contact Us</a>
                     </li>
                     <!-- Login/logout links with unique IDs -->
                     <li class="nav-item">
@@ -67,16 +67,18 @@
         </nav>
     </header>
 
-    <section class="food-categories-product">
-        <div class="container">
-            <!-- Each category will have its own container -->
-            <div class="row g-4" id="product-list">
-                <!-- Product listings will be dynamically generated here -->
+    <div style="background-color: #ac46a3;">
+        <section class="food-categories-product" id="food-categories-product">
+            <div class="container">
+                <!-- Each category will have its own container -->
+                <div class="row g-4" id="product-list">
+                    <!-- Product listings will be dynamically generated here -->
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <footer class="bg-dark text-light text-center py-3">
+    <footer class="bg-dark text-light text-center py-3" id="footer">
         <!-- Your footer content -->
     </footer>
 
@@ -96,26 +98,42 @@
                         productsByCategory[product.category_id].push(product);
                     });
 
+                    const categoryNames = {
+                        1: "Slowpoke Tails",
+                        2: "Sandwiches",
+                        3: "Seafood",
+                        4: "Sushi",
+                        5: "Soups",
+                        6: "Salads",
+                        7: "Crepes",
+                        8: "Ice Cream",
+                        9: "Beverages"
+                    };
+
                     // Loop through each category and generate HTML dynamically
                     for (const categoryId in productsByCategory) {
+                        const categoryName = categoryNames[categoryId] || "Unknown Category"; // Get category name from the object
                         const productList = document.createElement('div');
                         productList.className = 'container';
-                        productList.innerHTML = `<h3>Category ${categoryId}</h3><div class="row row-cols-1 row-cols-md-3 g-4"></div>`;
+                        productList.innerHTML = `<h3 id="${categoryName.toLowerCase()}">${categoryName}</h3><div class="row row-cols-1 row-cols-md-3 g-4"></div>`;
                         const productContainer = productList.querySelector('.row');
 
                         // Loop through products in the category and generate HTML dynamically
                         productsByCategory[categoryId].forEach(product => {
                             const productHTML = `
-                                <div class="col">
-                                    <div class="product-container">
-                                        <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="window.location.href='../details/details.html?id=${product.id}'">
-                                        <div class="product-details">
-                                            <h5 class="product-name"><a href="../details/details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
-                                            <p class="product-price">$${product.price.toFixed(2)}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
+                        <div class="col">
+                            <div class="product-container">
+                                <a href="../details/details.html?id=${product.id}">
+                                    <img src="${product.image_url}" class="product-img" alt="${product.name}">
+                                </a>
+                            <div class="product-details">
+                                <h5 class="product-name"><a href="../details/details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
+                                <p class="product-price">$${product.price.toFixed(2)}</p>
+                            </div>
+                        </div>
+                        </div>
+                        `;
+
                             productContainer.innerHTML += productHTML;
                         });
 
@@ -126,7 +144,7 @@
 
             // Handle search form submission
             document.getElementById('searchForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent the form from submitting normally
+                event.preventDefault();
 
                 const searchTerm = document.getElementById('searchInput').value.trim();
 
