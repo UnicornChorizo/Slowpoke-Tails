@@ -40,6 +40,7 @@
 </header>
 
 <main>
+    <!-- New Product Section -->
     <h1>List a New Product</h1>
     <div id="new-product-container">
         <div>
@@ -49,32 +50,26 @@
             <label for="price">Price:</label>
             <input type="text" id="price"><br>
 
-            <label for="imageUrl">Image:</label>
-            <input type="file" id="imageUrl" accept="image/*"><br>
+            <label for="image">Image:</label>
+            <input type="file" id="image" accept="image/*"><br>
 
             <label for="category">Category:</label>
             <select id="category" name="category">
-                <option value="Slowpoke-Tails">Slowpoke Tails</option>
-                <option value="Sandwiches">Sandwiches</option>
-                <option value="Seafood">Seafood</option>
-                <option value="Sushi">Sushi</option>
-                <option value="Soups">Soups</option>
-                <option value="Salads">Salads</option>
-                <option value="Crepes">Crepes</option>
-                <option value="Ice-Cream">Ice Cream</option>
-                <option value="Drinks">Drinks</option>
+                <!-- Example Category IDs assumed -->
+                <option value="1">Slowpoke Tails</option>
+                <option value="2">Sandwiches</option>
+                <option value="3">Seafood</option>
+                <!-- Add other categories as needed -->
             </select><br>
-        </div>
-        <div>
+
             <label for="description">Description:</label>
             <textarea id="description" rows="5" cols="30"></textarea><br>
+
+            <button id="add-product-btn" class="submit">Submit New Product</button>
         </div>
-
-    </div>
-    <div id="new-prod-buttons">
-        <input type="submit" id="edit-submit" class="submit" value="Submit">
     </div>
 
+    <!-- Product Edit Section -->
     <h1>Edit Product Container</h1>
     <div id="product-selection-container">
         <label for="productSelect">Select a product to edit:</label>
@@ -97,22 +92,17 @@
 
             <label for="editCategory">Category:</label>
             <select id="editCategory" name="category">
-                <option value="Slowpoke-Tails">Slowpoke Tails</option>
-                <option value="Sandwiches">Sandwiches</option>
-                <option value="Seafood">Seafood</option>
-                <option value="Sushi">Sushi</option>
-                <option value="Soups">Soups</option>
-                <option value="Salads">Salads</option>
-                <option value="Crepes">Crepes</option>
-                <option value="Ice-Cream">Ice Cream</option>
-                <option value="Drinks">Drinks</option>
+                <option value="1">Slowpoke Tails</option>
+                <option value="2">Sandwiches</option>
+                <option value="3">Seafood</option>
+                <!-- Add other categories as needed -->
             </select><br>
 
             <label for="editDescription">Description:</label>
             <textarea id="editDescription" name="description" rows="5" cols="30"></textarea><br>
 
-            <label for="editImageUrl">Image Path:</label>
-            <input type="text" id="editImageUrl" name="imageUrl"><br>
+            <label for="editImage">Image Path:</label>
+            <input type="text" id="editImage" name="image_url"><br>
 
             <input type="submit" class="submit" value="Update Product">
         </form>
@@ -126,7 +116,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../js/scripts.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load existing products into select menu
         fetch('/api/products')
             .then(response => response.json())
             .then(data => {
@@ -137,73 +128,81 @@
                 });
             });
 
-        document.getElementById('editProductForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            const id = document.getElementById('productId').value;
-            const name = document.getElementById('editProductName').value;
-            const price = document.getElementById('editPrice').value;
-            const category = document.getElementById('editCategory').value;
-            const description = document.getElementById('editDescription').value;
-            const imageUrl = document.getElementById('editImageUrl').value;
-
-            fetch('/api/products/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({id, name, price, imageUrl, category, description})
-            })
-                .then(response => {
-                    if (response.ok) return response.text();
-                    throw new Error('Problem updating product');
+        // Load product details into form for editing
+        document.getElementById('productSelect').addEventListener('change', function() {
+            const productId = this.value;
+            fetch(`/api/products/${productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    document.getElementById('productId').value = product.id;
+                    document.getElementById('editProductName').value = product.name;
+                    document.getElementById('editPrice').value = product.price;
+                    document.getElementById('editCategory').value = product.category_id;
+                    document.getElementById('editDescription').value = product.description;
+                    document.getElementById('editImage').value = product.image_url;
                 })
-                .then(data => {
-                    alert(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                .catch(error => console.error('Failed to load product details:', error));
         });
 
-        document.getElementById('new-prod-buttons').addEventListener('click', function(event) {
-            const productName = document.getElementById('productName').value;
-            const price = document.getElementById('price').value;
-            const imageUrl = document.getElementById('imageUrl').files[0];
-            const category = document.getElementById('category').value;
-            const description = document.getElementById('description').value;
-            const featured = document.getElementById('featured').value;
-
+        // Handle new product submission
+        document.getElementById('add-product-btn').addEventListener('click', function() {
             const formData = new FormData();
-            formData.append('name', productName); // Updated key name to match the 'name' column in the products table
-            formData.append('price', price);
-            formData.append('image_url', imageUrl); // Updated key name to match the 'image_url' column in the products table
-            formData.append('category_id', category); // Updated key name to match the 'category_id' column in the products table
-            formData.append('description', description);
-            formData.append('featured', featured);
+            formData.append('name', document.getElementById('productName').value);
+            formData.append('price', document.getElementById('price').value);
+            formData.append('image', document.getElementById('image').files[0]); // Assuming server handles file upload
+            formData.append('category_id', document.getElementById('category').value);
+            formData.append('description', document.getElementById('description').value);
 
             fetch('/api/products/add', {
                 method: 'POST',
                 body: formData
             })
                 .then(response => {
-                    if (response.ok) return response.text();
-                    throw new Error('Problem adding product');
+                    if (!response.ok) throw new Error('Failed to add product');
+                    return response.text();
                 })
-                .then(data => {
-                    alert(data);
-                    // Clear form after submission
+                .then(() => {
+                    alert('Product added successfully');
+                    // Optionally reset the form here
                     document.getElementById('productName').value = '';
                     document.getElementById('price').value = '';
                     document.getElementById('category').value = '';
                     document.getElementById('description').value = '';
-                    document.getElementById('imageUrl').value = '';
-                    document.getElementById('featured').value = '';
+                    document.getElementById('image').value = '';
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('Error adding product:', error);
+                    alert('Error adding product: ' + error.message);
                 });
         });
 
+        // Handle product updates
+        document.getElementById('editProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            formData.append('id', document.getElementById('productId').value);
+            formData.append('name', document.getElementById('editProductName').value);
+            formData.append('price', document.getElementById('editPrice').value);
+            formData.append('image_url', document.getElementById('editImage').value);
+            formData.append('category_id', document.getElementById('editCategory').value);
+            formData.append('description', document.getElementById('editDescription').value);
+
+            fetch('/api/products/update', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to update product');
+                    return response.text();
+                })
+                .then(() => {
+                    alert('Product updated successfully');
+                })
+                .catch(error => {
+                    console.error('Error updating product:', error);
+                    alert('Error updating product: ' + error.message);
+                });
+        });
     });
 </script>
 

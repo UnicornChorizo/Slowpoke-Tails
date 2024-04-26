@@ -248,7 +248,7 @@ async function insertProducts(products, res) {
 //API Endpoints for product edit page
 app.post('/api/products/add', async (req, res) => {
     const { name, price, imageUrl, category, description } = req.body;
-    const sql = 'INSERT INTO products (name, description, image_url, price, category) VALUES (?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO products (name, description, image_url, price, category_id) VALUES (?, ?, ?, ?, ?)';
     db.query(sql, [name, description, imageUrl, price, category], (err, result) => {
         if (err) {
             console.error('Error adding product:', err);
@@ -272,7 +272,7 @@ app.get('/api/products', (req, res) => {
 
 app.post('/api/products/update', (req, res) => {
     const { id, name, price, imageUrl, category, description } = req.body;
-    const sql = 'UPDATE products SET name = ?, description = ?, image_url = ?, price = ?, category = ? WHERE id = ?';
+    const sql = 'UPDATE products SET name = ?, description = ?, image_url = ?, price = ?, category_id = ? WHERE id = ?';
     db.query(sql, [name, description, imageUrl, price, category, id], (err, result) => {
         if (err) {
             console.error('Error updating product:', err);
