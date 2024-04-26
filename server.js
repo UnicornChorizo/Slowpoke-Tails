@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const db = require('./db');
 const session = require('express-session');
+require('dotenv').config();
 
 // Middleware for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,6 +49,9 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ dest: './uploads' });
+
+CURRENCY_API_KEY = '74ec86e60ea30c231f72e7bf';
+const currencyApiKey = process.env.CURRENCY_API_KEY;
 
 // Route to serve the homepage
 app.get('/', (req, res) => {
@@ -402,6 +406,25 @@ app.delete('/api/cart/:productId/remove', (req, res) => {
         res.send('Cart item removed successfully');
     });
 });
+
+//currency api
+app.get('/api/convert-currency', (req, res) => {
+    const baseCurrency = req.query.base;
+    const targetCurrency = req.query.target;
+
+    const apiUrl = `https://somecurrencyapi.com/api/${baseCurrency}/${targetCurrency}?apiKey=${currencyApiKey}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            res.json({ success: true, rate: data.rate });
+        })
+        .catch(error => {
+            console.error('Failed to fetch currency data:', error);
+            res.status(500).json({ success: false, message: 'Failed to fetch currency data' });
+        });
+});
+
 
 // Start the server
 app.listen(port, () => {
