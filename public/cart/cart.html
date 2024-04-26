@@ -67,55 +67,91 @@
 <script type="text/javascript" src="../js/scripts.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', async function () {
-        fetchAndUpdateCart(); // Fetch and update cart on load
-        checkAuthentication(); // Check user authentication on load
-
-        async function fetchAndUpdateCart() {
-            try {
-                const response = await fetch('/api/cart');
-                const cartDetails = await response.json();
-                const cartItemsContainer = document.getElementById('cart-items');
-                cartItemsContainer.innerHTML = ''; // Clear existing items
-                cartDetails.forEach(item => createCartItem(item, cartItemsContainer));
-                updateCartSummary(cartDetails); // Update cart summary
-            } catch (err) {
-                console.error('Failed to load cart:', err);
-                alert('Failed to load cart items.');
-            }
-        }
-
-        function createCartItem(item, container) {
-            const cartItemDiv = document.createElement('div');
-            cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
-            cartItemDiv.innerHTML = `
-            <img src="${item.imageUrl}" alt="${item.name}" class="item-image" style="width: 100px;">
-            <span class="item-name-cart">${item.name}</span>
-            <span class="item-price">$${item.price.toFixed(2)}</span>
-            <input type="number" class="form-control item-quantity" value="${item.quantity}" style="width: 60px;" data-id="${item.id}">
-            <button class="btn btn-primary" onclick="updateCartItem(${item.id})">Update</button>
-            <button class="btn btn-danger" onclick="removeCartItem(${item.id})">Remove</button>
-            <span class="item-total">$${(item.price * item.quantity).toFixed(2)}</span>
-        `;
-            container.appendChild(cartItemDiv);
-        }
-
-        function updateCartSummary(cartDetails) {
-            const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-            const tax = subtotal * 0.0675;
-            const deliveryFee = 5; // Assume a fixed delivery fee for now
-            const total = subtotal + tax + deliveryFee;
-
-            document.querySelector('.cart-summary').innerHTML = `
-            <div class="d-flex justify-content-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
-            <div class="d-flex justify-content-between"><span>Tax (6.75%)</span><span>$${tax.toFixed(2)}</span></div>
-            <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
-        `;
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
+        fetchAndUpdateCart();
         checkAuthentication();
+
+        document.querySelector('.cart-items').addEventListener('click', function(event) {
+            const target = event.target;
+            const productId = target.dataset.id;
+            const quantityInput = document.querySelector(`input[data-id="${productId}"]`);
+            const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+
+            if (target.classList.contains('update-cart')) {
+                updateCartItem(productId, quantity);
+            } else if (target.classList.contains('remove-cart')) {
+                removeCartItem(productId);
+            }
+        });
     });
+
+    async function fetchAndUpdateCart() {
+        try {
+            const response = await fetch('/api/cart');
+            const cartDetails = await response.json();
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = ''; // Clear existing items
+            cartDetails.forEach(item => createCartItem(item, cartItemsContainer));
+            updateCartSummary(cartDetails);
+        } catch (err) {
+            console.error('Failed to load cart:', err);
+            alert('Failed to load cart items.');
+        }
+    }
+
+    function createCartItem(item, container) {
+        const cartItemDiv = document.createElement('div');
+        cartItemDiv.className = 'cart-item d-flex justify-content-between align-items-center my-2';
+        cartItemDiv.innerHTML = `
+        <img src="${item.imageUrl}" alt="${item.name}" class="item-image" style="width: 100px;">
+        <span class="item-name-cart">${item.name}</span>
+        <span class="item-price">$${item.price.toFixed(2)}</span>
+        <input type="number" class="form-control item-quantity" value="${item.quantity}" style="width: 60px;" data-id="${item.id}">
+        <button class="btn btn-primary update-cart" data-id="${item.id}">Update</button>
+        <button class="btn btn-danger remove-cart" data-id="${item.id}">Remove</button>
+        <span class="item-total">$${(item.price * item.quantity).toFixed(2)}</span>
+    `;
+        container.appendChild(cartItemDiv);
+    }
+
+    function updateCartSummary(cartDetails) {
+        const subtotal = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+        const tax = subtotal * 0.0675;
+        const deliveryFee = 5; // Assume a fixed delivery fee for now
+        const total = subtotal + tax + deliveryFee;
+
+        document.querySelector('.cart-summary').innerHTML = `
+        <div class="d-flex justify-content-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+        <div class="d-flex justify-content-between"><span>Tax (6.75%)</span><span>$${tax.toFixed(2)}</span></div>
+        <div class="d-flex justify-content-between font-weight-bold"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+    `;
+    }
+
+    function updateCartItem(productId, quantity) {
+        fetch(`/api/cart/${productId}/update`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ quantity })
+        }).then(response => {
+            if (!response.ok) throw new Error('Failed to update cart item');
+            fetchAndUpdateCart(); // Refresh cart after update
+        }).catch(err => {
+            console.error('Error updating cart item:', err);
+            alert('Error updating cart item: ' + err.message);
+        });
+    }
+
+    function removeCartItem(productId) {
+        fetch(`/api/cart/${productId}/remove`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        }).then(response => {
+            if (!response.ok) throw new Error('Failed to remove cart item');
+            fetchAndUpdateCart(); // Refresh cart after removal
+        }).catch(err => {
+            console.error('Error removing cart item:', err);
+            alert('Error removing cart item: ' + err.message);
+        });
+    }
 
     function checkAuthentication() {
         fetch('/check-authentication')
@@ -133,33 +169,6 @@
             })
             .catch(error => {
                 console.error('Authentication check failed:', error);
-            });
-    }
-
-    function addToCart(productId) {
-        fetch(`/api/cart/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productId: productId,
-                quantity: 1  // Assuming the quantity is 1 for simplicity
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to add product to cart. Status: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(result => {
-                alert('Product added to cart!');
-                // Optional: Update cart UI here if needed
-            })
-            .catch(error => {
-                console.error('Error adding to cart:', error);
-                alert('Error adding to cart: ' + error.message);
             });
     }
 
