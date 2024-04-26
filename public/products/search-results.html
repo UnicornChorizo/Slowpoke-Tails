@@ -79,50 +79,40 @@
         <!-- Your footer content -->
     </footer>
 
-    <script type="text/javascript" src="../js/scripts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const params = new URLSearchParams(window.location.search);
             const searchTerm = params.get('search');
-
-            // If search term is provided, fetch and render search results
             if (searchTerm) {
-                // Fetch product data from the server based on the search term
-                fetch(`/api/products?search=${searchTerm}`)
+                fetch(`/api/products?search=${encodeURIComponent(searchTerm)}`)
                     .then(response => response.json())
                     .then(products => {
                         const searchResultsList = document.getElementById('search-results-list');
+                        searchResultsList.innerHTML = ''; // Clear existing results
 
-                        // Clear previous search results
-                        searchResultsList.innerHTML = '';
-
-                        // Render search results
-                        products.forEach(product => {
-                            const productHTML = `
-                        <div class="col">
-                            <div class="product-container">
-                                <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="redirectToDetails(${product.id})">
-                                <div class="product-details">
-                                    <h5 class="product-name"><a href="details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
-                                    <p class="product-price">$${product.price}</p>
-                                </div>
+                        if (products.length === 0) {
+                            searchResultsList.innerHTML = '<p>No items found with this search term.</p>';
+                        } else {
+                            products.forEach(product => {
+                                const productHTML = `
+                    <div class="col">
+                        <div class="product-container">
+                            <img src="${product.image_url}" class="product-img" alt="${product.name}">
+                            <div class="product-details">
+                                <h5 class="product-name"><a href="details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
+                                <p class="product-price">$${parseFloat(product.price).toFixed(2)}</p>
                             </div>
                         </div>
-                    `;
-                            searchResultsList.innerHTML += productHTML; // Append each product to the search results list
-                        });
+                    </div>`;
+                                searchResultsList.innerHTML += productHTML;
+                            });
+                        }
                     })
                     .catch(error => console.error('Error fetching search results:', error));
             }
         });
-
-        // Function to redirect to details page with product ID as query parameter
-        function redirectToDetails(productId) {
-            window.location.href = `details.html?id=${productId}`;
-        }
-
     </script>
-
+    <script type="text/javascript" src="../js/scripts.js"></script>
 </body>
 
 </html>

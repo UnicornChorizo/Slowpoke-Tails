@@ -62,17 +62,27 @@ app.get('/', (req, res) => {
     });
 });
 
-// API endpoint to get all products
+//Search and Get all products
 app.get('/api/products', (req, res) => {
-    db.query('SELECT * FROM products', (err, results) => {
+    const searchTerm = req.query.search;
+    let sql = "SELECT * FROM products";
+    let params = [];
+
+    if (searchTerm) {
+        sql += " WHERE name LIKE CONCAT('%', ?, '%') OR description LIKE CONCAT('%', ?, '%')";
+        params = [searchTerm, searchTerm];
+    }
+
+    db.query(sql, params, (err, results) => {
         if (err) {
-            console.error(err.message);
-            res.status(500).json({ error: 'Internal server error' });
+            console.error('Error executing query:', err);
+            res.status(500).send('Error during database query');
             return;
         }
         res.json(results);
     });
 });
+
 
 // Route to handle GET request for fetching product details by ID
 app.get('/api/products/:productId', (req, res) => {
@@ -98,25 +108,6 @@ app.get('/api/products/:productId', (req, res) => {
         res.json(product);
     });
 });
-
-// Searching for products
-app.get('/api/products/search', (req, res) => {
-    const searchTerm = req.query.search;
-    if (!searchTerm) {
-        res.json([]);
-        return;
-    }
-    const sql = "SELECT * FROM products WHERE name LIKE CONCAT('%', ?, '%') LIMIT 3";
-    db.query(sql, [searchTerm], (err, results) => {
-        if (err) {
-            console.error('Error searching products:', err);
-            res.status(500).send('Error searching products');
-            return;
-        }
-        res.json(results);
-    });
-});
-
 
 // Handle login
 app.post('/login', (req, res) => {
