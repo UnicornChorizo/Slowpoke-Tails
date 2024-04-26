@@ -237,8 +237,10 @@ async function insertProducts(products, res) {
 
 
 //API Endpoints for product edit page
-app.post('/api/products/add', async (req, res) => {
-    const { name, price, imageUrl, category, description } = req.body;
+app.post('/api/products/add', upload.single('image'), (req, res) => {
+    const { name, price, category, description } = req.body;
+    const imageUrl = req.file ? req.file.path : ''; // Use uploaded file path or default to an empty string
+
     const sql = 'INSERT INTO products (name, description, image_url, price, category_id) VALUES (?, ?, ?, ?, ?)';
     db.query(sql, [name, description, imageUrl, price, category], (err, result) => {
         if (err) {
