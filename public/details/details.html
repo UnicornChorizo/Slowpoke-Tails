@@ -14,6 +14,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-fluid {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        header,
+        footer {
+            flex: 0 0 auto;
+        }
+    </style>
 </head>
 
 <body class="details">
@@ -40,6 +63,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../webpages/contact.html">Contact Us</a>
+                    </li>
                     <li class="nav-item" id="loginLogoutLink">
                         <!-- This will be updated dynamically -->
                     </li>
@@ -96,7 +120,7 @@
                     document.getElementById('productImage').src = product.image_url;
                     document.getElementById('productName').textContent = product.name;
                     document.getElementById('productDescription').textContent = product.description;
-                    document.getElementById('productPrice').textContent = `$${product.price}`;
+                    document.getElementById('productPrice').textContent = `$${product.price.toFixed(2)}`;
                     document.getElementById('productIngredients').textContent = product.ingredients;
                     document.getElementById('productNutrition').textContent = product.nutrition;
                 })

@@ -104,10 +104,10 @@
                             const productHTML = `
                                 <div class="col">
                                     <div class="product-container">
-                                        <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="window.location.href='details.html?id=${product.id}'">
+                                        <img src="${product.image_url}" class="product-img" alt="${product.name}" onclick="window.location.href='../details/details.html?id=${product.id}'">
                                         <div class="product-details">
-                                            <h5 class="product-name"><a href="details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
-                                            <p class="product-price">$${product.price}</p>
+                                            <h5 class="product-name"><a href="../details/details.html?id=${product.id}" class="card-link">${product.name}</a></h5>
+                                            <p class="product-price">$${product.price.toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>
